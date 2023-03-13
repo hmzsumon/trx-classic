@@ -9,7 +9,7 @@ const {
 	getSinglepxcPrice,
 	getLastpxcPrice,
 	sendpxc,
-} = require('../controllers/pxcPriceController');
+} = require('../controllers/priceController');
 
 const { isAuthenticatedUser, authorizeRoles } = require('../middleware/auth');
 const upload = multer({});

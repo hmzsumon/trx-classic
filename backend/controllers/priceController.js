@@ -1,4 +1,4 @@
-const pxcPrice = require('./../models/pxcPrice');
+const pxcPrice = require('../models/pxcPrice');
 const User = require('../models/userModel');
 const ErrorHander = require('../utils/errorhander');
 const catchAsyncErrors = require('../middleware/catchAsyncErrors');
