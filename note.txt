@@ -1,0 +1,6 @@
+https://crypto-hunter.netlify.app/
+db:
+----------
+zakariadev01
+Sumon112200
+mongodb+srv://zakariadev01:Sumon112200@cluster0.toipwju.mongodb.net/bidcoin?retryWrites=true&w=majority
