@@ -11,7 +11,7 @@ const {
 const crypto = require('crypto');
 const cloudinary = require('cloudinary');
 const nodeMailer = require('nodemailer');
-const PXCPrice = require('./../models/PXC_price');
+const PXCPrice = require('./../models/pxcPrice');
 const Withdraw = require('../models/withdraw');
 const createTransaction = require('../utils/tnx');
 const { v4: uuidv4 } = require('uuid');

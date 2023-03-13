@@ -2,7 +2,7 @@ const ErrorHander = require('../utils/errorhander');
 const catchAsyncErrors = require('../middleware/catchAsyncErrors');
 const User = require('../models/userModel');
 const createTransaction = require('../utils/tnx');
-const PXCPrice = require('./../models/PXC_price');
+const PXCPrice = require('./../models/pxcPrice');
 const Usdx = require('../models/usdxModel');
 
 // buy PXC by usdx

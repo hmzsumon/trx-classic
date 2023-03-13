@@ -3,7 +3,7 @@ const catchAsyncErrors = require('../middleware/catchAsyncErrors');
 const User = require('../models/userModel');
 const Usdx = require('../models/usdxModel');
 const createTransaction = require('../utils/tnx');
-const PXCPrice = require('./../models/PXC_price');
+const PXCPrice = require('./../models/pxcPrice');
 const Deposit = require('../models/depositModel');
 
 // convert to PXC

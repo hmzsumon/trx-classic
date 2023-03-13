@@ -5,7 +5,7 @@ const Company = require('../models/companyModel');
 const companyId = process.env.COMPANY_ID;
 const createTransaction = require('../utils/tnx');
 const Loan = require('../models/loanModel');
-const PXCPrice = require('../models/PXC_price');
+const PXCPrice = require('./../models/pxcPrice');
 const Merchant = require('../models/merchantModel');
 
 const {
