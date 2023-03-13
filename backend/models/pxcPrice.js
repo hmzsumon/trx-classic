@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const PXCPriceSchema = new mongoose.Schema(
+const pxcPriceSchema = new mongoose.Schema(
 	{
 		price: {
 			type: Number,
@@ -12,4 +12,4 @@ const PXCPriceSchema = new mongoose.Schema(
 	}
 );
 
-module.exports = mongoose.model('PXCPrice', PXCPriceSchema);
+module.exports = mongoose.model('pxcPrice', pxcPriceSchema);

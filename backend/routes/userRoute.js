@@ -14,25 +14,25 @@ const {
 	updateUserRole,
 	deleteUser,
 	updateAllUsersBalance,
-	getUserByPXCId,
+	getUserBypxcId,
 	sendVerificationEmail,
 	findUserByPhoneNumber,
 	verifyUserEmail,
 	verifyAllEmil,
 	verifyEmail,
-	updateUserBalanceByPXCPrice,
+	updateUserBalanceBypxcPrice,
 	registerMerchant,
 	getAllUsersBalance,
-	updatePXCMiningBalance,
-	startPXCMining,
-	isCompletedPXCMining,
-	updatePXCMining,
+	updatepxcMiningBalance,
+	startpxcMining,
+	isCompletedpxcMining,
+	updatepxcMining,
 	updateAllUsersBalance2,
 	resendEmailVerificationCode,
 	updateAllUsersIsNewUser,
 	removeUserNotGmail,
 } = require('../controllers/userController');
-const { convertUsdtToPXC } = require('../controllers/usdtController');
+const { convertUsdtTopxc } = require('../controllers/usdtController');
 const { isAuthenticatedUser, authorizeRoles } = require('../middleware/auth');
 const User = require('../models/userModel');
 
@@ -61,8 +61,8 @@ router.route('/me/update').put(isAuthenticatedUser, updateProfile);
 // update all users balance
 router.route('/balance/update').put(updateAllUsersBalance);
 
-// get User by PXC Id
-router.route('/PXC-id').get(getUserByPXCId);
+// get User by pxc Id
+router.route('/pxc-id').get(getUserBypxcId);
 
 router
 	.route('/admin/users')
@@ -89,7 +89,7 @@ router.route('/find-user').get(findUserByPhoneNumber);
 // update user balance
 router
 	.route('/update-balance')
-	.put(isAuthenticatedUser, updateUserBalanceByPXCPrice);
+	.put(isAuthenticatedUser, updateUserBalanceBypxcPrice);
 
 // merchant register
 router.route('/merchant/register').post(upload.none(), registerMerchant);
@@ -97,25 +97,25 @@ router.route('/merchant/register').post(upload.none(), registerMerchant);
 // get all users balance === 0
 router.route('/balance/zero').get(getAllUsersBalance);
 
-// update PXC mining balance
-router.route('/update-PXC-mining-balance').put(updatePXCMiningBalance);
+// update pxc mining balance
+router.route('/update-pxc-mining-balance').put(updatepxcMiningBalance);
 
-// start PXC mining
-router.route('/start-PXC-mining').put(isAuthenticatedUser, startPXCMining);
+// start pxc mining
+router.route('/start-pxc-mining').put(isAuthenticatedUser, startpxcMining);
 
-// is completed PXC mining
+// is completed pxc mining
 router
-	.route('/is-completed-PXC-mining')
-	.put(upload.none(), isAuthenticatedUser, isCompletedPXCMining);
+	.route('/is-completed-pxc-mining')
+	.put(upload.none(), isAuthenticatedUser, isCompletedpxcMining);
 
-// update PXC mining
-router.route('/update-PXC-mining').put(updatePXCMining);
+// update pxc mining
+router.route('/update-pxc-mining').put(updatepxcMining);
 
 // update all users balance
 router.route('/update-all-users-balance').put(updateAllUsersBalance2);
 
-// convert usdt to PXC
-router.route('/convert-usdt-to-PXC').put(isAuthenticatedUser, convertUsdtToPXC);
+// convert usdt to pxc
+router.route('/convert-usdt-to-pxc').put(isAuthenticatedUser, convertUsdtTopxc);
 
 // verify email
 router.route('/verify-email/with-code').post(upload.none(), verifyEmail);

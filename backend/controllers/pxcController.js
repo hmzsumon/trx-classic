@@ -2,14 +2,14 @@ const ErrorHander = require('../utils/errorhander');
 const catchAsyncErrors = require('../middleware/catchAsyncErrors');
 const User = require('../models/userModel');
 const createTransaction = require('../utils/tnx');
-const PXCPrice = require('./../models/pxcPrice');
+const pxcPrice = require('./../models/pxcPrice');
 const Usdx = require('../models/usdxModel');
 
-// buy PXC by usdx
-exports.buyPXC = catchAsyncErrors(async (req, res, next) => {
-	const PXCPrices = await PXCPrice.find();
-	let priceLength = PXCPrices.length;
-	const currentPrice = await PXCPrices[priceLength - 1].price;
+// buy pxc by usdx
+exports.buypxc = catchAsyncErrors(async (req, res, next) => {
+	const pxcPrices = await pxcPrice.find();
+	let priceLength = pxcPrices.length;
+	const currentPrice = await pxcPrices[priceLength - 1].price;
 	const { amount } = req.body;
 
 	if (!amount) {
@@ -26,27 +26,27 @@ exports.buyPXC = catchAsyncErrors(async (req, res, next) => {
 
 	// update usdx balance
 	usdx.usdx_balance = usdx.usdx_balance - numAmount;
-	createTransaction(user._id, 'cashOut', numAmount, 'usdx', 'PXC Purchase');
+	createTransaction(user._id, 'cashOut', numAmount, 'usdx', 'pxc Purchase');
 	await usdx.save();
 
-	// update PXC balance
-	const PXC = numAmount / currentPrice;
+	// update pxc balance
+	const pxc = numAmount / currentPrice;
 	user.balance = user.balance + numAmount;
-	user.PXC_balance = user.PXC_balance + PXC;
-	createTransaction(user._id, 'cashIn', numAmount, 'PXC', 'PXC Purchase');
+	user.pxc_balance = user.pxc_balance + pxc;
+	createTransaction(user._id, 'cashIn', numAmount, 'pxc', 'pxc Purchase');
 	await user.save();
 
 	res.status(200).json({
 		success: true,
-		massage: 'PXC purchase successful',
+		massage: 'pxc purchase successful',
 	});
 });
 
-// sell PXC for usdx
-exports.sellPXC = catchAsyncErrors(async (req, res, next) => {
-	const PXCPrices = await PXCPrice.find();
-	let priceLength = PXCPrices.length;
-	const currentPrice = await PXCPrices[priceLength - 1].price;
+// sell pxc for usdx
+exports.sellpxc = catchAsyncErrors(async (req, res, next) => {
+	const pxcPrices = await pxcPrice.find();
+	let priceLength = pxcPrices.length;
+	const currentPrice = await pxcPrices[priceLength - 1].price;
 	const { amount } = req.body;
 
 	if (!amount) {
@@ -56,16 +56,16 @@ exports.sellPXC = catchAsyncErrors(async (req, res, next) => {
 	const user = await User.findById(req.user._id);
 	const usdx = await Usdx.findOne({ user_id: req.user._id });
 
-	// check if user has enough PXC
+	// check if user has enough pxc
 	if (user.balance < numAmount) {
-		return next(new ErrorHander('Insufficient PXC balance', 400));
+		return next(new ErrorHander('Insufficient pxc balance', 400));
 	}
 
-	// update PXC balance
-	const PXC = numAmount / currentPrice;
-	user.PXC_balance = user.PXC_balance - PXC;
+	// update pxc balance
+	const pxc = numAmount / currentPrice;
+	user.pxc_balance = user.pxc_balance - pxc;
 	user.balance = user.balance - numAmount;
-	createTransaction(user._id, 'cashOut', numAmount, 'PXC', 'PXC Sale');
+	createTransaction(user._id, 'cashOut', numAmount, 'pxc', 'pxc Sale');
 	await user.save();
 
 	// update usdx balance
@@ -76,12 +76,12 @@ exports.sellPXC = catchAsyncErrors(async (req, res, next) => {
 		'cashIn',
 		numAmount - numAmount * 0.02,
 		'usdx',
-		'PXC Sale'
+		'pxc Sale'
 	);
 	await usdx.save();
 
 	res.status(200).json({
 		success: true,
-		massage: 'PXC sale successful',
+		massage: 'pxc sale successful',
 	});
 });

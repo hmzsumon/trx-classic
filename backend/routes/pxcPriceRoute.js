@@ -4,27 +4,27 @@ const multer = require('multer');
 
 const router = express.Router();
 const {
-	createPXCPrice,
-	getAllPXCPrices,
-	getSinglePXCPrice,
-	getLastPXCPrice,
-	sendPXC,
-} = require('../controllers/PXCPriceController');
+	createpxcPrice,
+	getAllpxcPrices,
+	getSinglepxcPrice,
+	getLastpxcPrice,
+	sendpxc,
+} = require('../controllers/pxcPriceController');
 
 const { isAuthenticatedUser, authorizeRoles } = require('../middleware/auth');
 const upload = multer({});
 
-router.post('/PXC-price', upload.none(), createPXCPrice);
-router.get('/PXC-prices', getAllPXCPrices);
-router.get('/PXC-price/last', getLastPXCPrice);
-router.get('/PXC-price/:id', getSinglePXCPrice);
+router.post('/pxc-price', upload.none(), createpxcPrice);
+router.get('/pxc-prices', getAllpxcPrices);
+router.get('/pxc-price/last', getLastpxcPrice);
+router.get('/pxc-price/:id', getSinglepxcPrice);
 
 router.post(
-	'/send/PXC',
+	'/send/pxc',
 	upload.none(),
 	isAuthenticatedUser,
 	authorizeRoles('user'),
-	sendPXC
+	sendpxc
 );
 
 module.exports = router;

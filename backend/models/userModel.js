@@ -42,16 +42,16 @@ const userSchema = new mongoose.Schema(
 			default: false,
 		},
 
-		//PXC_mining
-		PXC_mining_balance: {
+		//pxc_mining
+		pxc_mining_balance: {
 			type: Number,
 			default: 0,
 		},
-		is_PXC_mining: {
+		is_pxc_mining: {
 			type: Boolean,
 			default: false,
 		},
-		is_completed_PXC_mining: {
+		is_completed_pxc_mining: {
 			type: Boolean,
 			default: false,
 		},
@@ -124,7 +124,7 @@ const userSchema = new mongoose.Schema(
 			type: Boolean,
 			default: true,
 		},
-		PXC_balance: {
+		pxc_balance: {
 			type: Number,
 			default: 0,
 		},
@@ -138,7 +138,7 @@ const userSchema = new mongoose.Schema(
 			type: Number,
 			default: 0,
 		},
-		PXC_coin: {
+		pxc_coin: {
 			type: Number,
 			default: 0,
 		},

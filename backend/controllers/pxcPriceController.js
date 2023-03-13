@@ -1,35 +1,35 @@
-const PXCPrice = require('./../models/pxcPrice');
+const pxcPrice = require('./../models/pxcPrice');
 const User = require('../models/userModel');
 const ErrorHander = require('../utils/errorhander');
 const catchAsyncErrors = require('../middleware/catchAsyncErrors');
 const createTransaction = require('../utils/tnx');
 const Merchant = require('../models/merchantModel');
 
-// create a PXC price
-exports.createPXCPrice = catchAsyncErrors(async (req, res, next) => {
+// create a pxc price
+exports.createpxcPrice = catchAsyncErrors(async (req, res, next) => {
 	const users = await User.find();
-	const newPXCPrice = new PXCPrice({
+	const newpxcPrice = new pxcPrice({
 		price: req.body.price,
 	});
-	const PXCPrice = await newPXCPrice.save();
+	const pxcPrice = await newpxcPrice.save();
 
 	users.forEach(async (user) => {
 		if (user.balance === 0) {
 			return;
 		}
-		user.balance = user.PXC_balance * PXCPrice.price;
+		user.balance = user.pxc_balance * pxcPrice.price;
 		await user.save();
 	});
 
 	res.status(201).json({
 		success: true,
-		PXCPrice,
+		pxcPrice,
 	});
 });
 
-// get all PXC prices by date
-exports.getAllPXCPrices = catchAsyncErrors(async (req, res, next) => {
-	const prices = await PXCPrice.find();
+// get all pxc prices by date
+exports.getAllpxcPrices = catchAsyncErrors(async (req, res, next) => {
+	const prices = await pxcPrice.find();
 	const priceLength = await prices.length;
 	const currentPrice = await prices[priceLength - 1];
 	const lastPrice = await prices[priceLength - 2];
@@ -41,43 +41,43 @@ exports.getAllPXCPrices = catchAsyncErrors(async (req, res, next) => {
 	});
 });
 
-//get last PXC price
-exports.getLastPXCPrice = catchAsyncErrors(async (req, res, next) => {
-	const PXCPrices = await PXCPrice.find();
-	const priceLength = PXCPrices.length;
-	const lastPrice = PXCPrices[priceLength - 1];
+//get last pxc price
+exports.getLastpxcPrice = catchAsyncErrors(async (req, res, next) => {
+	const pxcPrices = await pxcPrice.find();
+	const priceLength = pxcPrices.length;
+	const lastPrice = pxcPrices[priceLength - 1];
 	res.status(200).json({
 		success: true,
 		lastPrice,
 	});
 });
 
-// get PXC price data by date
-exports.getPXCPriceByDate = catchAsyncErrors(async (req, res, next) => {
-	const PXCPrice = await PXCPrice.findOne({ date: req.params.date });
-	if (!PXCPrice) {
-		return next(new ErrorHander('No PXC price found with that date', 404));
+// get pxc price data by date
+exports.getpxcPriceByDate = catchAsyncErrors(async (req, res, next) => {
+	const pxcPrice = await pxcPrice.findOne({ date: req.params.date });
+	if (!pxcPrice) {
+		return next(new ErrorHander('No pxc price found with that date', 404));
 	}
 	res.status(200).json({
 		success: true,
-		PXCPrice,
+		pxcPrice,
 	});
 });
 
-// get single PXC price
-exports.getSinglePXCPrice = catchAsyncErrors(async (req, res, next) => {
-	const PXCPrice = await PXCPrice.findById(req.params.id);
-	if (!PXCPrice) {
-		return next(new ErrorHander('No PXC price found with that id', 404));
+// get single pxc price
+exports.getSinglepxcPrice = catchAsyncErrors(async (req, res, next) => {
+	const pxcPrice = await pxcPrice.findById(req.params.id);
+	if (!pxcPrice) {
+		return next(new ErrorHander('No pxc price found with that id', 404));
 	}
 	res.status(200).json({
 		success: true,
-		PXCPrice,
+		pxcPrice,
 	});
 });
 
-// send PXC
-exports.sendPXC = catchAsyncErrors(async (req, res, next) => {
+// send pxc
+exports.sendpxc = catchAsyncErrors(async (req, res, next) => {
 	const sender = await User.findById(req.user._id);
 	const { recipientId, amount } = req.body;
 	const recipient = await User.findOne({ customer_id: recipientId });
@@ -96,22 +96,22 @@ exports.sendPXC = catchAsyncErrors(async (req, res, next) => {
 	if (sender.balance < netAmount) {
 		return next(new ErrorHander('Insufficient balance', 404));
 	}
-	const PXCPrices = await PXCPrice.find();
-	const priceLength = PXCPrices.length;
-	const lastPrice = PXCPrices[priceLength - 1];
-	const PXC = numAmount / lastPrice.price;
-	const PXCRecipient = numAmount / lastPrice.price;
+	const pxcPrices = await pxcPrice.find();
+	const priceLength = pxcPrices.length;
+	const lastPrice = pxcPrices[priceLength - 1];
+	const pxc = numAmount / lastPrice.price;
+	const pxcRecipient = numAmount / lastPrice.price;
 
 	// update sender balance
 	sender.balance = sender.balance - netAmount;
-	sender.PXC_balance = sender.PXC_balance - PXC;
+	sender.pxc_balance = sender.pxc_balance - pxc;
 	await sender.save();
 	createTransaction(
 		sender._id,
 		'cashOut',
 		netAmount,
-		'Send PXC',
-		`Send PXC To ${recipient.name}`,
+		'Send pxc',
+		`Send pxc To ${recipient.name}`,
 		lastPrice.price
 	);
 
@@ -124,9 +124,9 @@ exports.sendPXC = catchAsyncErrors(async (req, res, next) => {
 		merchant.total_send_amount += numAmount;
 		await merchant.save();
 		// user
-		const PXCProfit = profit / lastPrice.price;
+		const pxcProfit = profit / lastPrice.price;
 		sender.balance += profit;
-		sender.PXC_balance += PXCProfit;
+		sender.pxc_balance += pxcProfit;
 		createTransaction(
 			sender,
 			'cashIn',
@@ -139,19 +139,19 @@ exports.sendPXC = catchAsyncErrors(async (req, res, next) => {
 	}
 	// update recipient balance
 	recipient.balance = recipient.balance + numAmount;
-	recipient.PXC_balance = recipient.PXC_balance + PXCRecipient;
+	recipient.pxc_balance = recipient.pxc_balance + pxcRecipient;
 	await recipient.save();
 	createTransaction(
 		recipient._id,
 		'cashIn',
 		numAmount,
-		'Receive PXC',
-		`Receive PXC From ${sender.name}`,
+		'Receive pxc',
+		`Receive pxc From ${sender.name}`,
 		lastPrice.price
 	);
 
 	res.status(200).json({
 		success: true,
-		message: 'PXC sent successfully',
+		message: 'pxc sent successfully',
 	});
 });

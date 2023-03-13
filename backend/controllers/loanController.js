@@ -5,7 +5,7 @@ const Company = require('../models/companyModel');
 const companyId = process.env.COMPANY_ID;
 const createTransaction = require('../utils/tnx');
 const Loan = require('../models/loanModel');
-const PXCPrice = require('./../models/pxcPrice');
+const pxcPrice = require('./../models/pxcPrice');
 
 const {
 	sendEmail,
@@ -28,11 +28,11 @@ exports.newLoanRequest = catchAsyncErrors(async (req, res, next) => {
 	if (pendingLoan) {
 		return next(new ErrorHander('You have a pending loan request', 400));
 	}
-	// check user PXC balance is greater than 250
+	// check user pxc balance is greater than 250
 	if (user.balance < 250) {
 		return next(
 			new ErrorHander(
-				'You need at least 250$ PXC Balance to request a loan',
+				'You need at least 250$ pxc Balance to request a loan',
 				400
 			)
 		);
@@ -42,16 +42,16 @@ exports.newLoanRequest = catchAsyncErrors(async (req, res, next) => {
 		return next(new ErrorHander('Company not found', 404));
 	}
 
-	// find PXC price and last price
-	const PXCPrices = await PXCPrice.find();
-	let priceLength = PXCPrices.length;
-	const currentPrice = await PXCPrices[priceLength - 1].price;
+	// find pxc price and last price
+	const pxcPrices = await pxcPrice.find();
+	let priceLength = pxcPrices.length;
+	const currentPrice = await pxcPrices[priceLength - 1].price;
 
 	if (!currentPrice) {
-		return next(new ErrorHander('PXC Price not found', 404));
+		return next(new ErrorHander('pxc Price not found', 404));
 	}
 
-	const PXC = 250 / currentPrice;
+	const pxc = 250 / currentPrice;
 
 	const { personalInfo, address1, address2 } = req.body;
 	const { fullName, fatherName, motherName, phone, email, occupation, nid } =
@@ -94,9 +94,9 @@ exports.newLoanRequest = catchAsyncErrors(async (req, res, next) => {
 		},
 	});
 
-	// update user PXC balance
+	// update user pxc balance
 	user.balance = user.balance - 250;
-	user.PXC_balance = user.PXC_balance - PXC;
+	user.pxc_balance = user.pxc_balance - pxc;
 	user.is_loan_request = true;
 	createTransaction(userId, 'cashOut', 250, 'Loan Request', 'Loan Request');
 	await user.save();
@@ -220,14 +220,14 @@ exports.rejectLoanRequest = catchAsyncErrors(async (req, res, next) => {
 		return next(new ErrorHander('User not found', 404));
 	}
 
-	// find PXC price and last price
-	const PXCPrices = await PXCPrice.find();
-	if (!PXCPrices) {
-		return next(new ErrorHander('PXC price not found', 404));
+	// find pxc price and last price
+	const pxcPrices = await pxcPrice.find();
+	if (!pxcPrices) {
+		return next(new ErrorHander('pxc price not found', 404));
 	}
-	let priceLength = PXCPrices.length;
-	const currentPrice = await PXCPrices[priceLength - 1].price;
-	const PXC = 250 / currentPrice;
+	let priceLength = pxcPrices.length;
+	const currentPrice = await pxcPrices[priceLength - 1].price;
+	const pxc = 250 / currentPrice;
 
 	// update loan status
 	loan.status = 'rejected';
@@ -238,7 +238,7 @@ exports.rejectLoanRequest = catchAsyncErrors(async (req, res, next) => {
 	// update user
 	user.is_loan_request = false;
 	user.balance = user.balance + 250;
-	user.PXC_balance = user.PXC_balance + PXC;
+	user.pxc_balance = user.pxc_balance + pxc;
 	createTransaction(
 		user._id,
 		'cashIn',

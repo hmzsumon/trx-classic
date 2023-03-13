@@ -2,7 +2,7 @@ const Mining = require('../models/miningModel');
 const User = require('../models/userModel');
 var crypto = require('crypto');
 const moment = require('moment');
-const PXCPrice = require('./../models/pxcPrice');
+const pxcPrice = require('./../models/pxcPrice');
 const { sendMe, sendEmail } = require('../utils/sendEmail');
 const MiningTnx = require('../models/miningTnx');
 const cron = require('node-cron');
@@ -14,9 +14,9 @@ const bitcoinTransactionModel = require('../models/bitcoinTransactionModel');
 
 // create a mining
 exports.createMining = catchAsyncErrors(async (req, res, next) => {
-	const PXCPrices = await PXCPrice.find();
-	const priceLength = PXCPrices.length;
-	const lastPrice = PXCPrices[priceLength - 1].price;
+	const pxcPrices = await pxcPrice.find();
+	const priceLength = pxcPrices.length;
+	const lastPrice = pxcPrices[priceLength - 1].price;
 	req.body.user = req.user.id;
 	const user = await User.findById(req.user.id);
 	// console.log(req.user.id);
@@ -28,8 +28,8 @@ exports.createMining = catchAsyncErrors(async (req, res, next) => {
 	const miningId = `B${id}P`;
 	user.mining_id = miningId;
 	user.balance -= 10;
-	const PXC = 10 / lastPrice;
-	user.PXC_balance -= PXC;
+	const pxc = 10 / lastPrice;
+	user.pxc_balance -= pxc;
 	createTransaction(user._id, 'cashOut', 10, 'Mining', 'Create Mining ID');
 	await user.save();
 
@@ -113,9 +113,9 @@ exports.startMining = catchAsyncErrors(async (req, res, next) => {
 	if (exMining.mining_status === 'active') {
 		return next(new ErrorHander('You have already started mining', 404));
 	}
-	const PXCPrices = await PXCPrice.find();
-	const priceLength = PXCPrices.length;
-	const lastPrice = PXCPrices[priceLength - 1].price;
+	const pxcPrices = await pxcPrice.find();
+	const priceLength = pxcPrices.length;
+	const lastPrice = pxcPrices[priceLength - 1].price;
 
 	// console.log(req.user.id);
 	// console.log(req.body);
@@ -133,28 +133,28 @@ exports.startMining = catchAsyncErrors(async (req, res, next) => {
 		userBalance = user.loan_balance;
 	}
 
-	let userPXCBalance = Number(user.PXC_balance);
+	let userpxcBalance = Number(user.pxc_balance);
 
 	if (investMent > userBalance) {
-		return next(new ErrorHander('You do not have enough PXC balance', 404));
+		return next(new ErrorHander('You do not have enough pxc balance', 404));
 	}
 
 	const mining = await Mining.findOne({ mining_user: req.user.id });
 	if (!mining) {
 		return next(new ErrorHander('No mining found with that ID', 404));
 	}
-	let PXC = investMent / lastPrice;
+	let pxc = investMent / lastPrice;
 
 	if (wallet === 'payunx') {
-		if (PXC > userPXCBalance) {
-			return next(new ErrorHander('You do not have enough PXC balance', 404));
+		if (pxc > userpxcBalance) {
+			return next(new ErrorHander('You do not have enough pxc balance', 404));
 		}
 	}
 
 	if (wallet === 'payunx') {
 		user.balance = userBalance - investMent;
-		user.PXC_balance = userPXCBalance - PXC;
-		user.balance = user.PXC_balance * lastPrice;
+		user.pxc_balance = userpxcBalance - pxc;
+		user.balance = user.pxc_balance * lastPrice;
 	}
 
 	if (wallet === 'loan') {
@@ -297,8 +297,8 @@ exports.removeMiningId = catchAsyncErrors(async (req, res, next) => {
 
 // convert mining to credit
 exports.convertMiningToCredits = catchAsyncErrors(async (req, res, next) => {
-	const PXCPrices = await PXCPrice.find().sort({ _id: -1 }).limit(1);
-	const currentPrice = PXCPrices[0].price;
+	const pxcPrices = await pxcPrice.find().sort({ _id: -1 }).limit(1);
+	const currentPrice = pxcPrices[0].price;
 
 	const user = await User.findById(req.user.id);
 	const mining = await Mining.findOne({ mining_user: req.user.id });
@@ -325,18 +325,18 @@ exports.convertMiningToCredits = catchAsyncErrors(async (req, res, next) => {
 		'cashOut',
 		totalAmount,
 		'convert',
-		'Convert Mining to PXC'
+		'Convert Mining to pxc'
 	);
 	await mining.save();
-	const PXC = numAmount / currentPrice;
-	user.PXC_balance += PXC;
+	const pxc = numAmount / currentPrice;
+	user.pxc_balance += pxc;
 	user.balance += numAmount;
 	createTransaction(
 		user._id,
 		'cashIn',
 		numAmount,
 		'convert',
-		`Convert Mining to PXC = ${PXC}`
+		`Convert Mining to pxc = ${pxc}`
 	);
 	await user.save();
 
@@ -347,44 +347,44 @@ exports.convertMiningToCredits = catchAsyncErrors(async (req, res, next) => {
 	});
 });
 
-//convert PXC mining_balance to PXC coin
-exports.convertMiningBalanceToPXC = catchAsyncErrors(async (req, res, next) => {
-	const PXCPrices = await PXCPrice.find().sort({ _id: -1 }).limit(1);
-	const currentPrice = PXCPrices[0].price;
+//convert pxc mining_balance to pxc coin
+exports.convertMiningBalanceTopxc = catchAsyncErrors(async (req, res, next) => {
+	const pxcPrices = await pxcPrice.find().sort({ _id: -1 }).limit(1);
+	const currentPrice = pxcPrices[0].price;
 
 	const user = await User.findById(req.user.id);
 
 	const amount = req.body.amount;
 	const numAmount = Number(amount);
-	//check user PXC_mining_balance < amount
-	if (user.PXC_mining_balance < numAmount) {
+	//check user pxc_mining_balance < amount
+	if (user.pxc_mining_balance < numAmount) {
 		return next(new ErrorHander('You do not have enough balance', 404));
 	}
 
-	// check PXC_balance > 10
-	if (user.PXC_balance < 10) {
+	// check pxc_balance > 10
+	if (user.pxc_balance < 10) {
 		return next(
-			new ErrorHander('You do not have enough PXC Coin balance', 404)
+			new ErrorHander('You do not have enough pxc Coin balance', 404)
 		);
 	}
 
-	const PXC = numAmount / currentPrice;
-	user.PXC_mining_balance -= numAmount;
+	const pxc = numAmount / currentPrice;
+	user.pxc_mining_balance -= numAmount;
 	createTransaction(
 		user._id,
 		'cashOut',
 		numAmount,
 		'convert',
-		'Convert Mining to PXC Coin'
+		'Convert Mining to pxc Coin'
 	);
-	user.PXC_balance += PXC;
+	user.pxc_balance += pxc;
 	user.balance += numAmount;
 	createTransaction(
 		user._id,
 		'cashIn',
 		numAmount,
 		'convert',
-		`Convert Mining to PXC Coin = ${PXC}`
+		`Convert Mining to pxc Coin = ${pxc}`
 	);
 	await user.save();
 

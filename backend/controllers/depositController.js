@@ -2,7 +2,7 @@ const Deposit = require('../models/depositModel');
 const User = require('../models/userModel');
 const ErrorHander = require('../utils/errorhander');
 const catchAsyncErrors = require('../middleware/catchAsyncErrors');
-const PXCPrice = require('./../models/pxcPrice');
+const pxcPrice = require('./../models/pxcPrice');
 const createTransaction = require('../utils/tnx');
 const Company = require('../models/companyModel');
 const companyId = process.env.COMPANY_ID;
@@ -146,12 +146,12 @@ exports.approveDeposit = catchAsyncErrors(async (req, res, next) => {
 	if (deposit.status === 'success') {
 		return next(new ErrorHander('Deposit already approved', 400));
 	}
-	const PXCPrices = await PXCPrice.find();
-	if (!PXCPrices) {
-		return next(new ErrorHander('No PXC price found', 404));
+	const pxcPrices = await pxcPrice.find();
+	if (!pxcPrices) {
+		return next(new ErrorHander('No pxc price found', 404));
 	}
-	let priceLength = PXCPrices.length;
-	const currentPrice = await PXCPrices[priceLength - 1].price;
+	let priceLength = pxcPrices.length;
+	const currentPrice = await pxcPrices[priceLength - 1].price;
 
 	// find user
 	const user = await User.findById(deposit.userId);
@@ -182,8 +182,8 @@ exports.approveDeposit = catchAsyncErrors(async (req, res, next) => {
 		'deposit',
 		'Approved Deposit'
 	);
-	let PXC = deposit.amount / currentPrice;
-	user.PXC_balance = user.PXC_balance + PXC;
+	let pxc = deposit.amount / currentPrice;
+	user.pxc_balance = user.pxc_balance + pxc;
 	deposit.update_by.id = admin._id;
 	deposit.update_by.name = admin.name;
 	await user.save();

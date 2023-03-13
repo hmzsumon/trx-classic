@@ -3,14 +3,14 @@ const catchAsyncErrors = require('../middleware/catchAsyncErrors');
 const User = require('../models/userModel');
 const Usdx = require('../models/usdxModel');
 const createTransaction = require('../utils/tnx');
-const PXCPrice = require('./../models/pxcPrice');
+const pxcPrice = require('./../models/pxcPrice');
 const Deposit = require('../models/depositModel');
 
-// convert to PXC
-exports.convertUsdtToPXC = catchAsyncErrors(async (req, res, next) => {
-	const PXCPrices = await PXCPrice.find();
-	let priceLength = PXCPrices.length;
-	const currentPrice = await PXCPrices[priceLength - 1].price;
+// convert to pxc
+exports.convertUsdtTopxc = catchAsyncErrors(async (req, res, next) => {
+	const pxcPrices = await pxcPrice.find();
+	let priceLength = pxcPrices.length;
+	const currentPrice = await pxcPrices[priceLength - 1].price;
 	const user = await User.findById(req.user._id);
 	if (!user) {
 		return next(new ErrorHander('User not found', 404));
@@ -38,21 +38,21 @@ exports.convertUsdtToPXC = catchAsyncErrors(async (req, res, next) => {
 		);
 	}
 
-	const PXC = usdtBalance / currentPrice;
+	const pxc = usdtBalance / currentPrice;
 	user.balance = user.balance + usdtBalance;
-	user.PXC_balance = user.PXC_balance + PXC;
+	user.pxc_balance = user.pxc_balance + pxc;
 	createTransaction(
 		user._id,
 		'cashIn',
 		usdtBalance,
-		'PXC',
-		`USDT to PXC Conversion`
+		'pxc',
+		`USDT to pxc Conversion`
 	);
 	user.bonus_balance = 0;
 	await user.save();
 
 	res.status(200).json({
 		success: true,
-		massage: 'USDT to PXC Conversion successful',
+		massage: 'USDT to pxc Conversion successful',
 	});
 });

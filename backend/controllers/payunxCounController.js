@@ -29,13 +29,13 @@ exports.getAllCoins = catchAsyncErrors(async (req, res, next) => {
 
 // Get a single coin
 exports.getCoin = catchAsyncErrors(async (req, res, next) => {
-	const PXC_coin = await PayunxCoin.findById(req.params.id);
-	if (!PXC_coin) {
+	const pxc_coin = await PayunxCoin.findById(req.params.id);
+	if (!pxc_coin) {
 		return next(new ErrorHander('Coin not found', 404));
 	}
 	res.status(200).json({
 		success: true,
-		PXC_coin,
+		pxc_coin,
 	});
 });
 

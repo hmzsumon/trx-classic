@@ -13,7 +13,7 @@ const {
 	removeMiningId,
 	getAllInvestments,
 	convertMiningToCredits,
-	convertMiningBalanceToPXC,
+	convertMiningBalanceTopxc,
 } = require('../controllers/miningsController');
 const { isAuthenticatedUser } = require('../middleware/auth');
 
@@ -56,12 +56,12 @@ router.put(
 	convertMiningToCredits
 );
 
-// convert mining balance to PXC coin
+// convert mining balance to pxc coin
 router.put(
 	'/mining/convert-balance',
 	upload.none(),
 	isAuthenticatedUser,
-	convertMiningBalanceToPXC
+	convertMiningBalanceTopxc
 );
 
 module.exports = router;

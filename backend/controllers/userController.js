@@ -11,7 +11,7 @@ const {
 const crypto = require('crypto');
 const cloudinary = require('cloudinary');
 const nodeMailer = require('nodemailer');
-const PXCPrice = require('./../models/pxcPrice');
+const pxcPrice = require('./../models/pxcPrice');
 const Withdraw = require('../models/withdraw');
 const createTransaction = require('../utils/tnx');
 const { v4: uuidv4 } = require('uuid');
@@ -302,8 +302,8 @@ exports.getUserDetails = catchAsyncErrors(async (req, res, next) => {
 });
 
 // get a User bu another id
-exports.getUserByPXCId = catchAsyncErrors(async (req, res, next) => {
-	const user = await User.findOne({ customer_id: req.body.PXCId });
+exports.getUserBypxcId = catchAsyncErrors(async (req, res, next) => {
+	const user = await User.findOne({ customer_id: req.body.pxcId });
 	console.log(user);
 	res.status(200).json({
 		success: true,
@@ -403,7 +403,7 @@ exports.updateUserRole = catchAsyncErrors(async (req, res, next) => {
 		role: req.body.role,
 		active_status: req.body.active_status,
 		balance: req.body.balance,
-		PXC_balance: req.body.PXC_balance,
+		pxc_balance: req.body.pxc_balance,
 	};
 
 	await User.findByIdAndUpdate(req.params.id, newUserData, {
@@ -449,7 +449,7 @@ exports.updateAllUsersBalance = catchAsyncErrors(async (req, res, next) => {
 		if (user.balance === 0) {
 			return;
 		}
-		user.balance = user.PXC_balance;
+		user.balance = user.pxc_balance;
 
 		await user.save();
 	});
@@ -479,8 +479,8 @@ exports.findUserByPhoneNumber = catchAsyncErrors(async (req, res, next) => {
 	});
 });
 
-// update user balance by PXC_price
-exports.updateUserBalanceByPXCPrice = catchAsyncErrors(
+// update user balance by pxc_price
+exports.updateUserBalanceBypxcPrice = catchAsyncErrors(
 	async (req, res, next) => {
 		const user = await User.findById(req.user._id);
 		if (!user) {
@@ -492,11 +492,11 @@ exports.updateUserBalanceByPXCPrice = catchAsyncErrors(
 			// console.log('user.merchant_profit', user.merchant_profit);
 		}
 
-		const PXCPrices = await PXCPrice.find();
-		let priceLength = PXCPrices.length;
-		const currentPrice = await PXCPrices[priceLength - 1].price;
+		const pxcPrices = await pxcPrice.find();
+		let priceLength = pxcPrices.length;
+		const currentPrice = await pxcPrices[priceLength - 1].price;
 
-		user.balance = user.PXC_balance * currentPrice;
+		user.balance = user.pxc_balance * currentPrice;
 		await user.save();
 
 		res.status(200).json({
@@ -527,37 +527,37 @@ exports.getAllUsersBalance = catchAsyncErrors(async (req, res, next) => {
 	});
 });
 
-// update PXC_mining_balance && is_PXC_mining && is_completed_PXC_mining for all users
-exports.updatePXCMiningBalance = catchAsyncErrors(async (req, res, next) => {
+// update pxc_mining_balance && is_pxc_mining && is_completed_pxc_mining for all users
+exports.updatepxcMiningBalance = catchAsyncErrors(async (req, res, next) => {
 	const users = await User.find();
 
 	for (let i = 0; i < users.length; i++) {
 		const user = users[i];
-		user.PXC_mining_balance = 0;
-		user.is_PXC_mining = false;
-		user.is_completed_PXC_mining = false;
+		user.pxc_mining_balance = 0;
+		user.is_pxc_mining = false;
+		user.is_completed_pxc_mining = false;
 		await user.save();
 	}
 
 	res.status(200).json({
 		success: true,
-		message: 'PXC mining balance updated successfully',
+		message: 'pxc mining balance updated successfully',
 	});
 });
 
-// start PXC mining
-exports.startPXCMining = catchAsyncErrors(async (req, res, next) => {
-	const prices = await PXCPrice.find().sort({ _id: -1 }).limit(1);
+// start pxc mining
+exports.startpxcMining = catchAsyncErrors(async (req, res, next) => {
+	const prices = await pxcPrice.find().sort({ _id: -1 }).limit(1);
 	const currentPrice = prices[0].price;
 
-	const PXC = 20 / currentPrice;
+	const pxc = 20 / currentPrice;
 
 	const user = await User.findById(req.user._id);
 	if (!user) {
 		return next(new ErrorHander('User not found', 404));
 	}
-	// check if user is_PXC_mining === true
-	if (user.is_PXC_mining === true) {
+	// check if user is_pxc_mining === true
+	if (user.is_pxc_mining === true) {
 		return next(new ErrorHander('You are already mining', 400));
 	}
 	// check if user has enough balance
@@ -566,20 +566,20 @@ exports.startPXCMining = catchAsyncErrors(async (req, res, next) => {
 	}
 
 	user.balance = user.balance - 20;
-	createTransaction(user._id, 'cashOut', 20, 'PXC Mining', 'Start PXC Mining');
-	user.is_PXC_mining = true;
-	user.PXC_balance -= PXC;
-	createTransaction(user._id, 'cashOut', PXC, 'PXC Mining', 'Start PXC Mining');
+	createTransaction(user._id, 'cashOut', 20, 'pxc Mining', 'Start pxc Mining');
+	user.is_pxc_mining = true;
+	user.pxc_balance -= pxc;
+	createTransaction(user._id, 'cashOut', pxc, 'pxc Mining', 'Start pxc Mining');
 	await user.save();
 
 	res.status(200).json({
 		success: true,
-		message: 'PXC mining started successfully',
+		message: 'pxc mining started successfully',
 	});
 });
 
-// is_completed_PXC_mining
-exports.isCompletedPXCMining = catchAsyncErrors(async (req, res, next) => {
+// is_completed_pxc_mining
+exports.isCompletedpxcMining = catchAsyncErrors(async (req, res, next) => {
 	const { amount } = req.body;
 	const numAmount = Number(amount);
 
@@ -587,53 +587,53 @@ exports.isCompletedPXCMining = catchAsyncErrors(async (req, res, next) => {
 	if (!user) {
 		return next(new ErrorHander('User not found', 404));
 	}
-	// check if user is_PXC_mining === true
-	if (user.is_completed_PXC_mining === true) {
+	// check if user is_pxc_mining === true
+	if (user.is_completed_pxc_mining === true) {
 		return next(new ErrorHander('You are already mining', 400));
 	}
 
-	user.is_completed_PXC_mining = true;
-	user.PXC_mining_balance += numAmount;
+	user.is_completed_pxc_mining = true;
+	user.pxc_mining_balance += numAmount;
 	createTransaction(
 		user._id,
 		'cashIn',
 		numAmount,
-		'PXC Mining',
-		'PXC Mining Completed'
+		'pxc Mining',
+		'pxc Mining Completed'
 	);
 	await user.save();
 
 	res.status(200).json({
 		success: true,
-		message: 'PXC mining completed successfully',
+		message: 'pxc mining completed successfully',
 	});
 });
 
-// update all users is_completed_PXC_mining === false
-exports.updatePXCMining = catchAsyncErrors(async (req, res, next) => {
-	//find all users is_PXC_mining === true && role === user
+// update all users is_completed_pxc_mining === false
+exports.updatepxcMining = catchAsyncErrors(async (req, res, next) => {
+	//find all users is_pxc_mining === true && role === user
 	const users = await User.find({
-		is_PXC_mining: true,
+		is_pxc_mining: true,
 		role: 'user',
 	});
 
 	for (let i = 0; i < users.length; i++) {
 		const user = users[i];
-		user.is_completed_PXC_mining = false;
+		user.is_completed_pxc_mining = false;
 		await user.save();
 	}
 
 	res.status(200).json({
 		success: true,
-		message: 'PXC mining completed successfully',
+		message: 'pxc mining completed successfully',
 		users: users.length,
 	});
 });
 
-// update all users balance = PXC_balance * currentPrice
+// update all users balance = pxc_balance * currentPrice
 exports.updateAllUsersBalance2 = catchAsyncErrors(async (req, res, next) => {
-	// find all user PXC_balance > 0
-	const users = await User.find({ PXC_balance: { $gt: 0 }, role: 'user' });
+	// find all user pxc_balance > 0
+	const users = await User.find({ pxc_balance: { $gt: 0 }, role: 'user' });
 
 	for (let i = 0; i < users.length; i++) {
 		const user = users[i];
@@ -642,13 +642,13 @@ exports.updateAllUsersBalance2 = catchAsyncErrors(async (req, res, next) => {
 		console.log('user Prev Balance', user.name, '=', user.balance);
 		console.log('******************************************');
 
-		const PXCPrices = await PXCPrice.find();
-		let priceLength = PXCPrices.length;
-		const currentPrice = await PXCPrices[priceLength - 1].price;
+		const pxcPrices = await pxcPrice.find();
+		let priceLength = pxcPrices.length;
+		const currentPrice = await pxcPrices[priceLength - 1].price;
 
 		// console.log('currentPrice', currentPrice);
 
-		user.balance = user.PXC_balance * currentPrice;
+		user.balance = user.pxc_balance * currentPrice;
 		await user.save();
 
 		console.log('user Current Balance', user.name, '=', user.balance);
