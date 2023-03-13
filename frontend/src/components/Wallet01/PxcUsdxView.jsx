@@ -15,9 +15,9 @@ const PXCUsdxView = () => {
 		<Layout>
 			<div className=''>
 				<div className='w-11/12 h-[60%] mx-auto p-2 md:w-1/2 rounded bg-slate-800 mt-10'>
-					<div className='flex flex-col items-center justify-center  space-y-5 '>
+					<div className='flex flex-col items-center justify-center space-y-5 '>
 						{/* Price List */}
-						<div className='flex text-xs flex-wrap items-center justify-center mt-10 mb-4 space-x-4  font-semibold text-center'>
+						<div className='flex flex-wrap items-center justify-center mt-10 mb-4 space-x-4 text-xs font-semibold text-center'>
 							<p className='text-white'>Current Price = {newPrice}$</p>
 							<p className='text-red-500'>
 								Low Price = <span className='text-red-500'>{lowPrice}$</span>
@@ -29,13 +29,13 @@ const PXCUsdxView = () => {
 						</div>
 						{/* chart */}
 						<div className='w-full'>
-							<PxcUsdxChart prices={prices} />
+							{/* <PxcUsdxChart prices={prices} /> */}
 						</div>
 
 						<div className='flex-end'>
 							<Link
 								to='/dashboard'
-								className='flex space-x-1 text-xs italic items-center text-green-500 '
+								className='flex items-center space-x-1 text-xs italic text-green-500 '
 							>
 								<span>
 									<BsArrowLeftSquare className='text-xs text-green-500' />
