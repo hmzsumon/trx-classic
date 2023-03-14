@@ -14,7 +14,7 @@ const {
 	sendMe,
 	sendVerificationEmail,
 } = require('../utils/sendEmail');
-const pxcPrice = require('./../models/pxcPrice');
+const Price = require('./../models/pxcPrice');
 const Withdraw = require('../models/withdraw');
 const {
 	realtimebidding,

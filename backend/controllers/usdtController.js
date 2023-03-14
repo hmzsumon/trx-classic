@@ -3,12 +3,12 @@ const catchAsyncErrors = require('../middleware/catchAsyncErrors');
 const User = require('../models/userModel');
 const Usdx = require('../models/usdxModel');
 const createTransaction = require('../utils/tnx');
-const pxcPrice = require('./../models/pxcPrice');
+const Price = require('./../models/pxcPrice');
 const Deposit = require('../models/depositModel');
 
 // convert to pxc
 exports.convertUsdtTopxc = catchAsyncErrors(async (req, res, next) => {
-	const pxcPrices = await pxcPrice.find();
+	const pxcPrices = await Price.find();
 	let priceLength = pxcPrices.length;
 	const currentPrice = await pxcPrices[priceLength - 1].price;
 	const user = await User.findById(req.user._id);

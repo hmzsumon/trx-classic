@@ -4,8 +4,8 @@ const multer = require('multer');
 
 const router = express.Router();
 const {
-	createpxcPrice,
-	getAllpxcPrices,
+	createPrice,
+	getAllPrices,
 	getSinglepxcPrice,
 	getLastpxcPrice,
 	sendpxc,
@@ -14,8 +14,9 @@ const {
 const { isAuthenticatedUser, authorizeRoles } = require('../middleware/auth');
 const upload = multer({});
 
-router.post('/pxc-price', upload.none(), createpxcPrice);
-router.get('/pxc-prices', getAllpxcPrices);
+router.post('/create-price', upload.none(), createPrice);
+
+router.get('/pxc-prices', getAllPrices);
 router.get('/pxc-price/last', getLastpxcPrice);
 router.get('/pxc-price/:id', getSinglepxcPrice);
 

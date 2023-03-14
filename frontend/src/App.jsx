@@ -99,6 +99,8 @@ import EditDeposit from './components/Admin/Deposit/EditDeposit';
 import Merchant from './components/Merchant/Merchant';
 import MerchantList from './components/Admin/Merchant/MerchantList';
 import EditMerchant from './components/Admin/Merchant/EditMerchant';
+import PriceList from './components/Admin/Price/PriceList';
+import CreatePrice from './components/Admin/Price/CreatePrice';
 
 const darkTheme = createTheme({
 	palette: {
@@ -705,6 +707,23 @@ const App = () => {
 					}
 				/>
 
+				{/* Price */}
+				<Route
+					path='/admin/prices'
+					element={
+						<PrivateRoute>
+							<PriceList />
+						</PrivateRoute>
+					}
+				/>
+				<Route
+					path='/create-price'
+					element={
+						<PrivateRoute>
+							<CreatePrice />
+						</PrivateRoute>
+					}
+				/>
 				<Route path='*' element={<NotFound />}></Route>
 			</Routes>
 			<ToastContainer />

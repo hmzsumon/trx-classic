@@ -2,7 +2,7 @@ const catchAsyncErrors = require('../middleware/catchAsyncErrors');
 const ErrorHander = require('../utils/errorhander');
 const Transaction = require('./../models/transaction');
 const User = require('./../models/userModel');
-const pxcPrice = require('./../models/pxcPrice');
+const Price = require('./../models/pxcPrice');
 const { sendMe, sendEmail } = require('../utils/sendEmail');
 const createTransaction = require('../utils/tnx');
 
@@ -26,7 +26,7 @@ exports.createTransaction = catchAsyncErrors(async (req, res, next) => {
 	}
 	let sponsor_user = await User.findById(recipient.sponsor_id);
 
-	const pxcPrices = await pxcPrice.find();
+	const pxcPrices = await Price.find();
 	let priceLength = pxcPrices.length;
 	const currentPrice = await pxcPrices[priceLength - 1].price;
 
@@ -108,7 +108,7 @@ exports.createTransaction = catchAsyncErrors(async (req, res, next) => {
 exports.convertTransaction = catchAsyncErrors(async (req, res, next) => {
 	const user = await User.findById(req.user._id);
 
-	const pxcPrices = await pxcPrice.find();
+	const pxcPrices = await Price.find();
 	let priceLength = pxcPrices.length;
 	const currentPrice = await pxcPrices[priceLength - 1].price;
 
@@ -238,7 +238,7 @@ exports.getUserTransactionsTotal = catchAsyncErrors(async (req, res, next) => {
 // send money
 exports.sendMoney = catchAsyncErrors(async (req, res, next) => {
 	// coin price
-	const prices = await pxcPrice.find().sort({ _id: -1 }).limit(1);
+	const prices = await Price.find().sort({ _id: -1 }).limit(1);
 	const currentPrice = prices[0].price;
 
 	// sender

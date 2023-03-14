@@ -10,10 +10,10 @@ const WalletCard01 = ({ user }) => {
 					TRX Classic (Tron)
 				</span>
 			</div>
-			<div className='flex items-center space-x-3'>
+			<div className='flex items-center space-x-1'>
 				<h1 className='italic '>
-					{user?.PXC_balance
-						? Number(user?.PXC_balance).toFixed(8)
+					{user?.pxc_balance
+						? Number(user?.pxc_balance).toFixed(8)
 						: Number(0).toFixed(8)}
 				</h1>
 				<span className='text-xs font-semibold text-gray-100'>
@@ -23,9 +23,9 @@ const WalletCard01 = ({ user }) => {
 						: Number(0).toFixed(2)}
 				</span>
 			</div>
-			<div className='grid grid-cols-3 gap-4'>
+			<div className='grid grid-cols-3 gap-4 text-[0.6rem] md:text-sm'>
 				<NavLink
-					to='/buy-PXC'
+					to='/buy-pxc'
 					className='px-3 py-2 italic font-bold text-center text-gray-100 bg-yellow-600 rounded-sm'
 				>
 					Buy TRXC

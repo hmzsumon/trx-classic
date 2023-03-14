@@ -11,7 +11,7 @@ const {
 const crypto = require('crypto');
 const cloudinary = require('cloudinary');
 const nodeMailer = require('nodemailer');
-const pxcPrice = require('./../models/pxcPrice');
+const Price = require('./../models/pxcPrice');
 const Withdraw = require('../models/withdraw');
 const createTransaction = require('../utils/tnx');
 const { v4: uuidv4 } = require('uuid');
@@ -372,7 +372,6 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
 // Get all users(admin)
 exports.getAllUser = catchAsyncErrors(async (req, res, next) => {
 	const users = await User.find();
-
 	res.status(200).json({
 		success: true,
 		users,
@@ -492,7 +491,7 @@ exports.updateUserBalanceBypxcPrice = catchAsyncErrors(
 			// console.log('user.merchant_profit', user.merchant_profit);
 		}
 
-		const pxcPrices = await pxcPrice.find();
+		const pxcPrices = await Price.find();
 		let priceLength = pxcPrices.length;
 		const currentPrice = await pxcPrices[priceLength - 1].price;
 
@@ -547,7 +546,7 @@ exports.updatepxcMiningBalance = catchAsyncErrors(async (req, res, next) => {
 
 // start pxc mining
 exports.startpxcMining = catchAsyncErrors(async (req, res, next) => {
-	const prices = await pxcPrice.find().sort({ _id: -1 }).limit(1);
+	const prices = await Price.find().sort({ _id: -1 }).limit(1);
 	const currentPrice = prices[0].price;
 
 	const pxc = 20 / currentPrice;
@@ -642,7 +641,7 @@ exports.updateAllUsersBalance2 = catchAsyncErrors(async (req, res, next) => {
 		console.log('user Prev Balance', user.name, '=', user.balance);
 		console.log('******************************************');
 
-		const pxcPrices = await pxcPrice.find();
+		const pxcPrices = await Price.find();
 		let priceLength = pxcPrices.length;
 		const currentPrice = await pxcPrices[priceLength - 1].price;
 

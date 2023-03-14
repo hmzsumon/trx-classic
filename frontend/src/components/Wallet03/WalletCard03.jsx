@@ -23,7 +23,7 @@ const WalletCard03 = () => {
 						: Number(0).toFixed(2)}
 				</span> */}
 			</div>
-			<div className='grid grid-cols-3 gap-4'>
+			<div className='grid grid-cols-3 gap-4 text-[0.6rem] md:text-sm'>
 				<NavLink
 					to='/mining'
 					className='px-3 py-2 italic font-bold text-center text-gray-800 bg-yellow-500 rounded-sm'

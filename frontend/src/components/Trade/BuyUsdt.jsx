@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useGetUsdxDetailsQuery } from '../../features/usdx/usdxApi';
 import FadeLoader from 'react-spinners/FadeLoader';
-import { useBuyPxcMutation } from '../../features/pxc.js/pxcApi';
+import { useBuyTrxcWithUsdtMutation } from '../../features/pxc.js/pxcApi';
 import { toast } from 'react-toastify';
 import BeatLoader from 'react-spinners/BeatLoader';
 import { useNavigate } from 'react-router-dom';
 
 const BuyUsdt = ({ currentPrice }) => {
 	const navigate = useNavigate();
-	const [buyPxcWithUsdx, { isLoading: buyLoading, isError, isSuccess, error }] =
-		useBuyPxcMutation();
+	const [
+		buyTrxcWithUsdt,
+		{ isLoading: buyLoading, isError, isSuccess, error },
+	] = useBuyTrxcWithUsdtMutation();
 	const { data, isLoading } = useGetUsdxDetailsQuery();
 	const { usdx } = data || {};
 	const [amount, setAmount] = useState();
@@ -22,7 +24,7 @@ const BuyUsdt = ({ currentPrice }) => {
 		}
 		const myForm = new FormData();
 		myForm.append('amount', amount);
-		buyPxcWithUsdx(myForm);
+		buyTrxcWithUsdt(myForm);
 	};
 
 	useEffect(() => {
@@ -30,7 +32,7 @@ const BuyUsdt = ({ currentPrice }) => {
 			toast.error(error?.data?.message);
 		}
 		if (isSuccess) {
-			toast.success('PXC Bought Successfully');
+			toast.success('TRXC Bought Successfully');
 			navigate('/all-history');
 		}
 	}, [isSuccess, isError, error, navigate]);

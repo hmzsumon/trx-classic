@@ -2,7 +2,7 @@ const Mining = require('../models/miningModel');
 const User = require('../models/userModel');
 var crypto = require('crypto');
 const moment = require('moment');
-const pxcPrice = require('./../models/pxcPrice');
+const Price = require('./../models/pxcPrice');
 const { sendMe, sendEmail } = require('../utils/sendEmail');
 const MiningTnx = require('../models/miningTnx');
 const cron = require('node-cron');
@@ -14,7 +14,7 @@ const bitcoinTransactionModel = require('../models/bitcoinTransactionModel');
 
 // create a mining
 exports.createMining = catchAsyncErrors(async (req, res, next) => {
-	const pxcPrices = await pxcPrice.find();
+	const pxcPrices = await Price.find();
 	const priceLength = pxcPrices.length;
 	const lastPrice = pxcPrices[priceLength - 1].price;
 	req.body.user = req.user.id;
@@ -113,7 +113,7 @@ exports.startMining = catchAsyncErrors(async (req, res, next) => {
 	if (exMining.mining_status === 'active') {
 		return next(new ErrorHander('You have already started mining', 404));
 	}
-	const pxcPrices = await pxcPrice.find();
+	const pxcPrices = await Price.find();
 	const priceLength = pxcPrices.length;
 	const lastPrice = pxcPrices[priceLength - 1].price;
 
@@ -297,7 +297,7 @@ exports.removeMiningId = catchAsyncErrors(async (req, res, next) => {
 
 // convert mining to credit
 exports.convertMiningToCredits = catchAsyncErrors(async (req, res, next) => {
-	const pxcPrices = await pxcPrice.find().sort({ _id: -1 }).limit(1);
+	const pxcPrices = await Price.find().sort({ _id: -1 }).limit(1);
 	const currentPrice = pxcPrices[0].price;
 
 	const user = await User.findById(req.user.id);
@@ -349,7 +349,7 @@ exports.convertMiningToCredits = catchAsyncErrors(async (req, res, next) => {
 
 //convert pxc mining_balance to pxc coin
 exports.convertMiningBalanceTopxc = catchAsyncErrors(async (req, res, next) => {
-	const pxcPrices = await pxcPrice.find().sort({ _id: -1 }).limit(1);
+	const pxcPrices = await Price.find().sort({ _id: -1 }).limit(1);
 	const currentPrice = pxcPrices[0].price;
 
 	const user = await User.findById(req.user.id);

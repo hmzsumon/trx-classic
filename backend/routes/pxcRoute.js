@@ -8,7 +8,7 @@ const { buypxc, sellpxc } = require('../controllers/pxcController');
 const upload = multer({});
 
 // buy pxc by usdx
-router.route('/buypxc').post(upload.none(), isAuthenticatedUser, buypxc);
+router.route('/buy-trxc').post(upload.none(), isAuthenticatedUser, buypxc);
 
 // sell pxc for usdx
 router.route('/sellpxc').post(upload.none(), isAuthenticatedUser, sellpxc);

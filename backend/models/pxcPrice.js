@@ -12,4 +12,4 @@ const pxcPriceSchema = new mongoose.Schema(
 	}
 );
 
-module.exports = mongoose.model('pxcPrice', pxcPriceSchema);
+module.exports = mongoose.model('Price', pxcPriceSchema);

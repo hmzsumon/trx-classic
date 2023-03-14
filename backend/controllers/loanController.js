@@ -5,7 +5,7 @@ const Company = require('../models/companyModel');
 const companyId = process.env.COMPANY_ID;
 const createTransaction = require('../utils/tnx');
 const Loan = require('../models/loanModel');
-const pxcPrice = require('./../models/pxcPrice');
+const Price = require('./../models/pxcPrice');
 
 const {
 	sendEmail,
@@ -43,7 +43,7 @@ exports.newLoanRequest = catchAsyncErrors(async (req, res, next) => {
 	}
 
 	// find pxc price and last price
-	const pxcPrices = await pxcPrice.find();
+	const pxcPrices = await Price.find();
 	let priceLength = pxcPrices.length;
 	const currentPrice = await pxcPrices[priceLength - 1].price;
 
@@ -221,7 +221,7 @@ exports.rejectLoanRequest = catchAsyncErrors(async (req, res, next) => {
 	}
 
 	// find pxc price and last price
-	const pxcPrices = await pxcPrice.find();
+	const pxcPrices = await Price.find();
 	if (!pxcPrices) {
 		return next(new ErrorHander('pxc price not found', 404));
 	}

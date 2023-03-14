@@ -47,7 +47,7 @@ const BuyPXC = () => {
 			<div className=''>
 				<div className='w-11/12 px-2 py-4 mx-auto space-y-4 rounded-md bg-slate-800 md:w-9/12'>
 					<div className='text-sm font-bold text-center md:text-2xl'>
-						<h1>Buy Payunx Coin</h1>
+						<h1>Buy TRX Classic</h1>
 					</div>
 					{/* Next False */}
 					{!next && (
@@ -126,8 +126,8 @@ const BuyPXC = () => {
 									</div>
 								</div>
 								<div>
-									<div className='w-6/12 mx-auto bg-white rounded-md '>
-										<p className='my-2 font-bold text-center text-gray-800'>
+									<div className='w-6/12 mx-auto rounded-md '>
+										<p className='my-2 font-bold text-center text-gray-100'>
 											{sMethod.title}{' '}
 										</p>
 										<img

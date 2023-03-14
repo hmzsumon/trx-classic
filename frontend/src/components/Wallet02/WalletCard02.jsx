@@ -23,13 +23,13 @@ const WalletCard02 = () => {
 					$
 				</h1>
 			</div>
-			<div className='grid grid-cols-3 gap-4'>
-				<NavLink
-					to='/send-usdx'
-					className='px-3 py-2 italic font-bold text-center text-gray-100 bg-yellow-600 rounded-sm'
+			<div className='grid grid-cols-3 gap-4 text-[0.6rem] md:text-sm'>
+				<button
+					className='px-3 py-2 italic font-bold text-center text-gray-100 bg-yellow-600 rounded-sm disabled:cursor-not-allowed '
+					disabled
 				>
 					Transfer
-				</NavLink>
+				</button>
 				<NavLink
 					to='/usdx-withdraw'
 					className='px-3 py-2 italic font-bold text-center text-gray-100 bg-yellow-600 rounded-sm'

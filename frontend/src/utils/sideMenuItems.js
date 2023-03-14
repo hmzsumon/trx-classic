@@ -1,7 +1,7 @@
 import { AiOutlineDownload, AiOutlineUpload } from 'react-icons/ai';
 
 import { FiUsers, FiGift } from 'react-icons/fi';
-import { GiMining } from 'react-icons/gi';
+import { GiMining, GiPriceTag } from 'react-icons/gi';
 import { MdOutlineDashboard } from 'react-icons/md';
 import { MdOutlineVerifiedUser } from 'react-icons/md';
 import { FaHandHoldingUsd } from 'react-icons/fa';
@@ -59,10 +59,16 @@ const sideMenuItems = [
 		path: '/admin/loans',
 	},
 	{
-		id: 14,
+		id: 15,
 		name: 'Merchant',
 		icon: <SiMagento />,
 		path: '/admin/merchants',
+	},
+	{
+		id: 16,
+		name: 'Prices',
+		icon: <GiPriceTag />,
+		path: '/admin/prices',
 	},
 
 	//   {

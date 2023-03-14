@@ -30,7 +30,7 @@ const SendPXC = () => {
 			toast.error(error?.data?.message);
 		}
 		if (isSuccess) {
-			toast.success('PXC sent successfully');
+			toast.success('TRXC sent successfully');
 			navigate('/wallets');
 		}
 	}, [isSuccess, isError, error, navigate]);

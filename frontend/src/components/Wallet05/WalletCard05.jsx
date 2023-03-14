@@ -23,7 +23,7 @@ const WalletCard05 = () => {
 					If you don't convert before January 15, the bonus will be 0
 				</span>
 			</div> */}
-			<div className='grid grid-cols-2 gap-4'>
+			<div className='grid grid-cols-2 gap-4 text-[0.6rem] md:text-sm'>
 				<NavLink
 					to='/loan'
 					className='px-3 py-2 italic font-bold text-center bg-yellow-500 rounded-sm text-slate-800 hover:bg-yellow-600 disabled:cursor-not-allowed'

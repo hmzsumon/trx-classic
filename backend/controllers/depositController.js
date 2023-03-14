@@ -2,7 +2,7 @@ const Deposit = require('../models/depositModel');
 const User = require('../models/userModel');
 const ErrorHander = require('../utils/errorhander');
 const catchAsyncErrors = require('../middleware/catchAsyncErrors');
-const pxcPrice = require('./../models/pxcPrice');
+const Price = require('./../models/pxcPrice');
 const createTransaction = require('../utils/tnx');
 const Company = require('../models/companyModel');
 const companyId = process.env.COMPANY_ID;
@@ -146,7 +146,7 @@ exports.approveDeposit = catchAsyncErrors(async (req, res, next) => {
 	if (deposit.status === 'success') {
 		return next(new ErrorHander('Deposit already approved', 400));
 	}
-	const pxcPrices = await pxcPrice.find();
+	const pxcPrices = await Price.find();
 	if (!pxcPrices) {
 		return next(new ErrorHander('No pxc price found', 404));
 	}

@@ -1,4 +1,4 @@
-const pxcPrice = require('../models/pxcPrice');
+const Price = require('../models/pxcPrice');
 const User = require('../models/userModel');
 const ErrorHander = require('../utils/errorhander');
 const catchAsyncErrors = require('../middleware/catchAsyncErrors');
@@ -6,12 +6,17 @@ const createTransaction = require('../utils/tnx');
 const Merchant = require('../models/merchantModel');
 
 // create a pxc price
-exports.createpxcPrice = catchAsyncErrors(async (req, res, next) => {
+exports.createPrice = catchAsyncErrors(async (req, res, next) => {
 	const users = await User.find();
-	const newpxcPrice = new pxcPrice({
-		price: req.body.price,
+	const { amount } = req.body;
+	const mumAmount = Number(amount);
+	// check amount = 0
+	if (req.body.amount === 0) {
+		return next(new ErrorHander('Please enter a valid amount', 400));
+	}
+	const pxcPrice = await Price.create({
+		price: mumAmount,
 	});
-	const pxcPrice = await newpxcPrice.save();
 
 	users.forEach(async (user) => {
 		if (user.balance === 0) {
@@ -28,8 +33,8 @@ exports.createpxcPrice = catchAsyncErrors(async (req, res, next) => {
 });
 
 // get all pxc prices by date
-exports.getAllpxcPrices = catchAsyncErrors(async (req, res, next) => {
-	const prices = await pxcPrice.find();
+exports.getAllPrices = catchAsyncErrors(async (req, res, next) => {
+	const prices = await Price.find();
 	const priceLength = await prices.length;
 	const currentPrice = await prices[priceLength - 1];
 	const lastPrice = await prices[priceLength - 2];
@@ -43,7 +48,7 @@ exports.getAllpxcPrices = catchAsyncErrors(async (req, res, next) => {
 
 //get last pxc price
 exports.getLastpxcPrice = catchAsyncErrors(async (req, res, next) => {
-	const pxcPrices = await pxcPrice.find();
+	const pxcPrices = await Price.find();
 	const priceLength = pxcPrices.length;
 	const lastPrice = pxcPrices[priceLength - 1];
 	res.status(200).json({
@@ -54,7 +59,7 @@ exports.getLastpxcPrice = catchAsyncErrors(async (req, res, next) => {
 
 // get pxc price data by date
 exports.getpxcPriceByDate = catchAsyncErrors(async (req, res, next) => {
-	const pxcPrice = await pxcPrice.findOne({ date: req.params.date });
+	const pxcPrice = await Price.findOne({ date: req.params.date });
 	if (!pxcPrice) {
 		return next(new ErrorHander('No pxc price found with that date', 404));
 	}
@@ -66,7 +71,7 @@ exports.getpxcPriceByDate = catchAsyncErrors(async (req, res, next) => {
 
 // get single pxc price
 exports.getSinglepxcPrice = catchAsyncErrors(async (req, res, next) => {
-	const pxcPrice = await pxcPrice.findById(req.params.id);
+	const pxcPrice = await Price.findById(req.params.id);
 	if (!pxcPrice) {
 		return next(new ErrorHander('No pxc price found with that id', 404));
 	}
@@ -96,7 +101,7 @@ exports.sendpxc = catchAsyncErrors(async (req, res, next) => {
 	if (sender.balance < netAmount) {
 		return next(new ErrorHander('Insufficient balance', 404));
 	}
-	const pxcPrices = await pxcPrice.find();
+	const pxcPrices = await Price.find();
 	const priceLength = pxcPrices.length;
 	const lastPrice = pxcPrices[priceLength - 1];
 	const pxc = numAmount / lastPrice.price;
@@ -111,7 +116,7 @@ exports.sendpxc = catchAsyncErrors(async (req, res, next) => {
 		'cashOut',
 		netAmount,
 		'Send pxc',
-		`Send pxc To ${recipient.name}`,
+		`Send TRXC To ${recipient.name}`,
 		lastPrice.price
 	);
 
@@ -146,7 +151,7 @@ exports.sendpxc = catchAsyncErrors(async (req, res, next) => {
 		'cashIn',
 		numAmount,
 		'Receive pxc',
-		`Receive pxc From ${sender.name}`,
+		`Receive TRXC From ${sender.name}`,
 		lastPrice.price
 	);
 
