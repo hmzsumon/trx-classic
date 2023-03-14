@@ -5,12 +5,12 @@ import { useGetMiningQuery } from '../../features/mining/miningApi';
 const WalletCard03 = () => {
 	const { data } = useGetMiningQuery();
 	return (
-		<div className='p-4 space-y-4 bg-black rounded-md'>
-			<span className='text-xs font-semibold text-slate-500'>
+		<div className='p-4 space-y-4 bg-teal-600 rounded-md'>
+			<span className='text-xs font-semibold text-gray-100'>
 				Invest Profit (BTC)
 			</span>
 			<div className='flex items-center space-x-3'>
-				<h1 className='text-3xl italic font-bold '>
+				<h1 className='text-xl italic font-bold '>
 					{data && data.mining
 						? Number(data.mining.mining_profit).toFixed(8)
 						: Number(0).toFixed(8)}

@@ -15,7 +15,7 @@ const Home = () => {
 				<Carousel />
 			</div>
 			<CoinsTable />
-			<Overview />
+			{/* <Overview /> */}
 			<Started />
 		</Layout>
 	);

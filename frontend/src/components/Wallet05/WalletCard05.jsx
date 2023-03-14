@@ -5,10 +5,10 @@ import { NavLink } from 'react-router-dom';
 const WalletCard05 = () => {
 	const { user } = useSelector((state) => state.auth);
 	return (
-		<div className='p-4 space-y-4 rounded-md bg-slate-800'>
-			<span className='text-xs font-semibold text-slate-500'>Loan Balance</span>
+		<div className='p-4 space-y-4 bg-teal-600 rounded-md'>
+			<span className='text-xs font-semibold text-gray-100'>Loan Balance</span>
 			<div className='flex items-center space-x-3'>
-				<h1 className='text-3xl italic font-bold '>
+				<h1 className='text-xl italic font-bold '>
 					{user?.loan_balance
 						? Number(user?.loan_balance).toFixed(2)
 						: Number(0).toFixed(2)}

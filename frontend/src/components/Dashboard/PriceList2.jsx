@@ -11,7 +11,7 @@ const PriceList2 = ({
 	link,
 }) => {
 	return (
-		<div className='bg-black rounded-md'>
+		<div className='bg-teal-600 rounded-md'>
 			<div className='p-3'>
 				<h1 className='my-2 italic font-semibold '> Price History</h1>
 				<div className='mx-auto space-y-2 '>
@@ -29,20 +29,20 @@ const PriceList2 = ({
 						<span className='text-center text-[0.6rem] md:text-xs'>Change</span>
 					</div>
 					<div className='grid w-full grid-cols-5 gap-2 text-xs italic'>
-						<span className='text-[0.6rem] text-blue-500'>
+						<span className='text-[0.6rem] text-gray-100'>
 							<Link to={link}>{title}</Link>
 						</span>
-						<span className='text-center text-yellow-400 text-[0.6rem] md:text-xs'>
+						<span className='text-center text-gray-100 text-[0.6rem] md:text-xs'>
 							{lastPrice}
 						</span>
-						<span className='text-center text-[0.6rem] md:text-xs text-orange-500'>
+						<span className='text-center text-[0.6rem] md:text-xs text-gray-1000'>
 							${supply}
 						</span>
-						<span className=' text-green-600 text-center text-[0.6rem] md:text-xs'>
+						<span className=' text-gray-100 text-center text-[0.6rem] md:text-xs'>
 							${marketCap}
 						</span>
 						<span
-							className={`px-2 py-[.15rem] mx-auto text-center bg-red-500 rounded ${bgColor}`}
+							className={`px-2 py-[.15rem] mx-auto text-center bg-green-500 rounded ${bgColor}`}
 						>
 							{chance}
 						</span>

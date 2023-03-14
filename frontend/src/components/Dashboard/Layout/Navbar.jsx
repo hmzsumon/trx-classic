@@ -15,7 +15,7 @@ const navItems = [
 	// 	icon: <VscHistory />,
 	// 	link: '/history',
 	// },
-	{ id: 6, name: 'News', icon: <GiWallet />, link: '/dashboard' },
+	{ id: 6, name: 'Loan', icon: <GiWallet />, link: '/loan' },
 	{ id: 5, name: 'Assets', icon: <GiWallet />, link: '/wallets' },
 ];
 

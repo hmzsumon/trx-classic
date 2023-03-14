@@ -15,10 +15,10 @@ const Navbar2 = () => {
 					>
 						<img src='/images/trx1.png' alt='logo' className='w-14' />
 						<h1 className='hidden italic font-bold text-orange-500 lowercase md:block md:text-3xl'>
-							Payunx Coin
+							TRX Classic
 						</h1>
 						<h1 className='text-2xl italic font-bold text-orange-500 lowercase md:hidden'>
-							Payunx Coin
+							TRX Classic
 						</h1>
 					</NavLink>
 				</div>
