@@ -9,7 +9,7 @@ const WalletCard10 = () => {
 			<div className='text-center '>
 				<span className='text-xs font-bold text-gray-100'>
 					TRX Classic Share
-					<span className='text-[0.5rem]'> (1 TRXC = 150$)</span>
+					<span className='text-[0.5rem]'> (1 TRXCS = 150$)</span>
 				</span>
 				<div className=''>
 					<h1 className='text-xl italic font-bold text-gray-100 '>
