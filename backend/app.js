@@ -37,6 +37,7 @@ const pxc = require('./routes/pxcRoute');
 const verify = require('./routes/verifyRoute');
 const loan = require('./routes/loanRoute');
 const merchant = require('./routes/merchantRoute');
+const trxcMining = require('./routes/trxcMiningRoute');
 
 app.use('/api/v1', subscription);
 app.use('/api/v1', user);
@@ -55,6 +56,7 @@ app.use('/api/v1', pxc);
 app.use('/api/v1', verify);
 app.use('/api/v1', loan);
 app.use('/api/v1', merchant);
+app.use('/api/v1', trxcMining);
 
 app.use(express.static(path.join(__dirname, '../frontend/build')));
 
