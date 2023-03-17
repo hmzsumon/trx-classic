@@ -7,14 +7,20 @@ const WalletCard10 = () => {
 	return (
 		<div className='p-4 space-y-4 bg-teal-600 rounded-md'>
 			<div className='text-center '>
-				<span className='text-xs font-bold text-gray-100'>
+				<span className='text-xs font-bold  text-slate-800'>
 					TRX Classic Share
-					<span className='text-[0.5rem]'> (1 TRXCS = 150$)</span>
+					<span className=''> Price = 150$</span>
 				</span>
 				<div className=''>
 					<h1 className='text-xl italic font-bold text-gray-100 '>
+						TRXCS{' '}
 						{user?.bonus_balance ? Number(0).toFixed(0) : Number(0).toFixed(0)}{' '}
 						= 0.00$
+					</h1>
+				</div>
+				<div className=''>
+					<h1 className='text-xl italic font-bold text-gray-100 '>
+						Profit : 0.00$
 					</h1>
 				</div>
 			</div>

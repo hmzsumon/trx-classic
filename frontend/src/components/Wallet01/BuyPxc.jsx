@@ -48,6 +48,9 @@ const BuyPXC = () => {
 				<div className='w-11/12 px-2 py-4 mx-auto space-y-4 rounded-md bg-slate-800 md:w-9/12'>
 					<div className='text-sm font-bold text-center md:text-2xl'>
 						<h1>Buy TRX Classic</h1>
+						<p className='text-[0.6rem] italic'>
+							Minimum: <span className='text-yellow-400'>$15</span>
+						</p>
 					</div>
 					{/* Next False */}
 					{!next && (
@@ -94,7 +97,7 @@ const BuyPXC = () => {
 								<button
 									className='w-full px-3 py-4 text-sm font-semibold text-center text-gray-100 list-none bg-yellow-400 rounded-md cursor-pointer disabled:cursor-not-allowed'
 									onClick={() => setNext(true)}
-									disabled={amount <= 0}
+									disabled={amount <= 14}
 								>
 									Next
 								</button>
