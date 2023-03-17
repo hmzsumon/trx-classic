@@ -10,7 +10,7 @@ const Lunch = () => {
 				</h1>
 				<h1 className='my-2 italic font-semibold '>
 					{' '}
-					Starting Trcx Price :{' '}
+					Starting Trxc Price :{' '}
 					<span className=' text-gray-600'>0.10000000</span>
 				</h1>
 			</div>
