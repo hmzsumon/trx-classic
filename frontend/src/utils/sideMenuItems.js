@@ -1,4 +1,8 @@
-import { AiOutlineDownload, AiOutlineUpload } from 'react-icons/ai';
+import {
+	AiOutlineDownload,
+	AiOutlineUpload,
+	AiOutlineNotification,
+} from 'react-icons/ai';
 
 import { FiUsers, FiGift } from 'react-icons/fi';
 import { GiMining, GiPriceTag } from 'react-icons/gi';
@@ -69,6 +73,12 @@ const sideMenuItems = [
 		name: 'Prices',
 		icon: <GiPriceTag />,
 		path: '/admin/prices',
+	},
+	{
+		id: 17,
+		name: 'Notice',
+		icon: <AiOutlineNotification />,
+		path: '/admin/notice',
 	},
 
 	//   {

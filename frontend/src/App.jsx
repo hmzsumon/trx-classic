@@ -101,6 +101,8 @@ import MerchantList from './components/Admin/Merchant/MerchantList';
 import EditMerchant from './components/Admin/Merchant/EditMerchant';
 import PriceList from './components/Admin/Price/PriceList';
 import CreatePrice from './components/Admin/Price/CreatePrice';
+import NoticeList from './components/Admin/Notice/NoticeList';
+import CreateNotice from './components/Admin/Notice/CreateNotice';
 
 const darkTheme = createTheme({
 	palette: {
@@ -721,6 +723,23 @@ const App = () => {
 					element={
 						<PrivateRoute>
 							<CreatePrice />
+						</PrivateRoute>
+					}
+				/>
+				{/* Notice */}
+				<Route
+					path='/admin/notice'
+					element={
+						<PrivateRoute>
+							<NoticeList />
+						</PrivateRoute>
+					}
+				/>
+				<Route
+					path='/create-notice'
+					element={
+						<PrivateRoute>
+							<CreateNotice />
 						</PrivateRoute>
 					}
 				/>

@@ -5,8 +5,14 @@ const catchAsyncErrors = require('../middleware/catchAsyncErrors');
 // Create Notice
 exports.createNotice = catchAsyncErrors(async (req, res, next) => {
 	req.body.user = req.user.id;
+	const { notice: description } = req.body;
+	// inactivate all notices
+	await Notice.updateMany({ active: true }, { active: false });
 
-	const notice = await Notice.create(req.body);
+	const notice = await Notice.create({
+		description,
+		active: true,
+	});
 
 	res.status(201).json({
 		success: true,
