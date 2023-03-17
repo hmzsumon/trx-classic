@@ -66,7 +66,7 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
 
 	// let random_num = Math.floor(Math.random() * 10000000);
 	const random_num = uuidv4().toString().replace(/-/g, '');
-	const customer_id = `P${random_num}`;
+	const customer_id = `T${random_num}`;
 
 	const { name, email, password, phone_number } = req.body;
 
@@ -111,7 +111,7 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
 	// send verify code to user email
 	sendEmail({
 		email: newUser.email,
-		subject: 'Payunx Verification Code',
+		subject: 'TRX Classic Verification Code',
 		message: `Your verification code is ${verify_code}`,
 	});
 
@@ -239,7 +239,7 @@ exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
 	try {
 		await sendEmail({
 			email: user.email,
-			subject: `Payunx Coin Password Recovery`,
+			subject: `TRX Classic Password Recovery`,
 			message,
 		});
 
