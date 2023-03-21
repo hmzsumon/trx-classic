@@ -42,7 +42,7 @@ const Footer = () => {
 								<p className='my-2 text-lg text-white'>Participate:</p>
 								<ul className='text-gray-400'>
 									<li>
-										<Link to='/buy-PXC'>Buy PXC</Link>
+										<Link to='/buy-PXC'>Buy TRXC</Link>
 									</li>
 									<li>
 										<Link to='/mining'>Mining</Link>

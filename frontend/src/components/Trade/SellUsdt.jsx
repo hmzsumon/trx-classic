@@ -30,7 +30,7 @@ const SellUsdt = ({ currentPrice }) => {
 			toast.error(error?.data?.message);
 		}
 		if (isSuccess) {
-			toast.success('PXC Sold Successfully');
+			toast.success('TRXC Sold Successfully');
 			navigate('/all-history');
 		}
 	}, [isError, isSuccess, error, navigate]);

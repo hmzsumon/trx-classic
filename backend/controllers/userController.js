@@ -52,17 +52,17 @@ exports.sendVerificationEmail = catchAsyncErrors(async (req, res, next) => {
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {
 	const referral_id = req.query.referral_id;
 
-	// if referral id is provided
-	if (referral_id) {
-		const ref_user = await User.findById(referral_id);
-
-		if (!ref_user) {
-			new Error('User not found');
-		}
-		ref_user.referral_bonus += 5;
-		ref_user.bonus_balance += 5;
-		await ref_user.save();
-	}
+	// // if referral id is provided
+	// if (referral_id) {
+	// 	const ref_user = await User.findById(referral_id);
+	// 	if (!ref_user) {
+	// 		new Error('User not found');
+	// 	}
+	// 	ref_user.referral_bonus += 5;
+	// 	ref_user.bonus_balance += 5;
+	// 	createTransaction(ref_user._id, 'cashIn', 5, 'bonus', 'Referral bonus ');
+	// 	await ref_user.save();
+	// }
 
 	// let random_num = Math.floor(Math.random() * 10000000);
 	const random_num = uuidv4().toString().replace(/-/g, '');
@@ -680,6 +680,24 @@ exports.verifyEmail = catchAsyncErrors(async (req, res, next) => {
 	user.verify_code = null;
 	user.is_newUser = false;
 	await user.save();
+
+	// if referral id is provided
+	if (user.sponsor_id) {
+		const ref_user = await User.findById(user.sponsor_id);
+		if (!ref_user) {
+			new Error('User not found');
+		}
+		ref_user.referral_bonus += 5;
+		ref_user.bonus_balance += 5;
+		createTransaction(
+			ref_user._id,
+			'cashIn',
+			5,
+			'bonus',
+			`Referral bonus from ${user.name}`
+		);
+		await ref_user.save();
+	}
 
 	res.status(200).json({
 		success: true,

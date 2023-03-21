@@ -21,7 +21,7 @@ exports.buypxc = catchAsyncErrors(async (req, res, next) => {
 
 	// check if user has enough usdx
 	if (usdx.usdx_balance < numAmount) {
-		return next(new ErrorHander('Insufficient usdx balance', 400));
+		return next(new ErrorHander('Insufficient usdt balance', 400));
 	}
 
 	// update usdx balance
@@ -38,7 +38,7 @@ exports.buypxc = catchAsyncErrors(async (req, res, next) => {
 
 	res.status(200).json({
 		success: true,
-		massage: 'pxc purchase successful',
+		massage: 'TRXC purchase successful',
 	});
 });
 
@@ -58,7 +58,7 @@ exports.sellpxc = catchAsyncErrors(async (req, res, next) => {
 
 	// check if user has enough pxc
 	if (user.balance < numAmount) {
-		return next(new ErrorHander('Insufficient pxc balance', 400));
+		return next(new ErrorHander('Insufficient TRXC balance', 400));
 	}
 
 	// update pxc balance
