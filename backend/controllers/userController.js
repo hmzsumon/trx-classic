@@ -636,10 +636,6 @@ exports.updateAllUsersBalance2 = catchAsyncErrors(async (req, res, next) => {
 
 	for (let i = 0; i < users.length; i++) {
 		const user = users[i];
-		console.log(' ');
-		console.log('=========================================');
-		console.log('user Prev Balance', user.name, '=', user.balance);
-		console.log('******************************************');
 
 		const pxcPrices = await Price.find();
 		let priceLength = pxcPrices.length;
