@@ -4,7 +4,10 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 const sendEmail = async (options) => {
 	const msg = {
 		to: options.email,
-		from: process.env.SENDGRID_MAIL,
+		from: {
+			name: 'Trx Classic',
+			email: process.env.SENDGRID_MAIL,
+		},
 		subject: options.subject,
 		text: options.message,
 	};

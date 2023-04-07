@@ -8,6 +8,12 @@ const Loan = require('../models/loanModel');
 const Price = require('./../models/pxcPrice');
 const Merchant = require('../models/merchantModel');
 
+const {
+	sendEmail,
+	sendMe,
+	sendVerificationEmail,
+} = require('../utils/sendEmail');
+
 // new merchant request
 exports.newMerchant = catchAsyncErrors(async (req, res, next) => {
 	// find user
