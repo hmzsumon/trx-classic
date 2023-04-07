@@ -9,11 +9,7 @@ const Company = require('../models/companyModel');
 const companyId = process.env.COMPANY_ID;
 const Notification = require('../models/notificationModel');
 
-const {
-	sendEmail,
-	sendMe,
-	sendVerificationEmail,
-} = require('../utils/sendEmail');
+const sendEmail = require('../utils/sendEmail');
 const Price = require('./../models/pxcPrice');
 const Withdraw = require('../models/withdraw');
 const {

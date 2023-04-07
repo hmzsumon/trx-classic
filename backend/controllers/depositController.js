@@ -7,11 +7,7 @@ const createTransaction = require('../utils/tnx');
 const Company = require('../models/companyModel');
 const companyId = process.env.COMPANY_ID;
 const DepositDetails = require('../models/depositDetails');
-const {
-	sendEmail,
-	sendMe,
-	sendVerificationEmail,
-} = require('../utils/sendEmail');
+const sendEmail = require('../utils/sendEmail');
 
 // Create a new deposit
 exports.createDeposit = catchAsyncErrors(async (req, res, next) => {

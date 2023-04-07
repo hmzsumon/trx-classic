@@ -32,6 +32,7 @@ const {
 	updateAllUsersIsNewUser,
 	removeUserNotGmail,
 } = require('../controllers/userController');
+const sendEmail = require('../utils/sendEmail');
 const { convertUsdtTopxc } = require('../controllers/usdtController');
 const { isAuthenticatedUser, authorizeRoles } = require('../middleware/auth');
 const User = require('../models/userModel');
@@ -130,5 +131,18 @@ router.route('/update-all-users-is-new-user').put(updateAllUsersIsNewUser);
 
 // remove user not gmail
 router.route('/remove-user-not-gmail').put(removeUserNotGmail);
+
+// test email
+router.route('/test-email').post((req, res) => {
+	sendEmail({
+		email: req.body.email,
+		subject: 'Test Email',
+		message: 'This is a test email',
+	});
+	res.status(200).json({
+		success: true,
+		message: 'Email sent',
+	});
+});
 
 module.exports = router;

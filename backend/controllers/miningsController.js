@@ -3,7 +3,7 @@ const User = require('../models/userModel');
 var crypto = require('crypto');
 const moment = require('moment');
 const Price = require('./../models/pxcPrice');
-const { sendMe, sendEmail } = require('../utils/sendEmail');
+const sendEmail = require('../utils/sendEmail');
 const MiningTnx = require('../models/miningTnx');
 const cron = require('node-cron');
 const createTransaction = require('../utils/tnx');
@@ -170,13 +170,6 @@ exports.startMining = catchAsyncErrors(async (req, res, next) => {
 	mining.wallet = wallet;
 	mining.mining_status = 'active';
 	await mining.save();
-
-	// await sendMe({
-	//   subject: `Investment in mining`,
-	//   message: `User Name: ${user.name}, Amount: ${investMent} \n Phone: ${
-	//     user.phone_number
-	//   }, Email: ${user.email}, Date: ${new Date().toLocaleDateString()}`,
-	// });
 
 	sendEmail({
 		email: user.email,

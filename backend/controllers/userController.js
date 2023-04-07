@@ -3,11 +3,7 @@ const catchAsyncErrors = require('../middleware/catchAsyncErrors');
 const User = require('../models/userModel');
 const WithdrawDetails = require('../models/withdrawDetailsModel');
 const sendToken = require('../utils/jwtToken');
-const {
-	sendEmail,
-	sendMe,
-	sendVerificationEmail,
-} = require('../utils/sendEmail');
+const sendEmail = require('../utils/sendEmail');
 const crypto = require('crypto');
 const cloudinary = require('cloudinary');
 const nodeMailer = require('nodemailer');
@@ -158,11 +154,6 @@ exports.registerMerchant = catchAsyncErrors(async (req, res, next) => {
 		// active_status: false,
 		merchant_profit: merchantProfit,
 	});
-
-	sendMe({
-		subject: 'Merchant Registration',
-		message: `name: ${name} \n email: ${email} \n  phone_number: ${phone_number} \n customer_id: ${customer_id} \n date: ${new Date()}`,
-	}).catch(console.error);
 
 	res.status(201).json({
 		success: true,
