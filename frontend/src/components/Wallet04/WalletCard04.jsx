@@ -63,9 +63,7 @@ const WalletCard04 = () => {
 					onClose={handleClose}
 					aria-describedby='alert-dialog-slide-description'
 				>
-					<DialogTitle>
-						{'Transfer can be done if 20 referrals are made!'}
-					</DialogTitle>
+					<DialogTitle>{'Transfer will be done minimum $60!'}</DialogTitle>
 					<DialogContent>
 						{/* <DialogContentText id='alert-dialog-slide-description'>
 							Let Google help apps determine location. This means sending

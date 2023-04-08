@@ -23,13 +23,20 @@ const WalletCard01 = ({ user }) => {
 						: Number(0).toFixed(2)}
 				</span>
 			</div>
-			<div className='grid grid-cols-3 gap-4 text-[0.6rem] md:text-sm'>
+			<div className='grid grid-cols-4 gap-4 text-[0.6rem] md:text-sm'>
 				<NavLink
 					to='/buy-pxc'
 					className='px-3 py-2 italic font-bold text-center text-gray-100 bg-yellow-600 rounded-sm'
 				>
 					Buy TRXC
 				</NavLink>
+				<NavLink
+					to='/send'
+					className='w-full px-3 py-2 italic font-bold text-center text-gray-100 bg-yellow-600 rounded-sm'
+				>
+					Send
+				</NavLink>
+
 				<NavLink
 					to='/send'
 					className='w-full px-3 py-2 italic font-bold text-center text-gray-100 bg-yellow-600 rounded-sm'

@@ -1,11 +1,7 @@
 const ErrorHander = require('../utils/errorhander');
 const catchAsyncErrors = require('../middleware/catchAsyncErrors');
 const User = require('../models/userModel');
-const {
-	sendEmail,
-	sendMe,
-	sendVerificationEmail,
-} = require('../utils/sendEmail');
+const sendEmail = require('../utils/sendEmail');
 const cloudinary = require('cloudinary');
 const Verify = require('../models/verifyModel');
 const Company = require('../models/companyModel');
@@ -81,7 +77,7 @@ exports.newVerify = catchAsyncErrors(async (req, res, next) => {
 	});
 
 	// send email to user
-	await sendVerificationEmail({
+	await sendEmail({
 		email: user.email,
 		subject: `Verification request sent`,
 		message: `Your verification request has been sent to the admin. Please wait for the admin to verify your account.`,
@@ -169,7 +165,7 @@ exports.approveVerification = catchAsyncErrors(async (req, res, next) => {
 	await company.save({ validateBeforeSave: false });
 
 	// send email to user
-	await sendVerificationEmail({
+	await sendEmail({
 		email: user.email,
 		subject: `Verification request approved`,
 		message: `Your verification request has been approved by the admin. You can now start using the app.`,

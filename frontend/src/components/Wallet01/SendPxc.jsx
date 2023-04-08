@@ -39,7 +39,7 @@ const SendPXC = () => {
 			<div className='w-11/12 px-2 py-4 mx-auto space-y-4 rounded-md bg-slate-800 md:w-9/12'>
 				<div>
 					<h2 className='text-xl font-extrabold text-center text-gray-100 md:text-3xl'>
-						Wallet to Wallet Withdraw
+						Wallet to Wallet Send
 					</h2>
 				</div>
 
@@ -101,10 +101,10 @@ const SendPXC = () => {
 							<button
 								type='submit'
 								className='relative flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-green-500 border border-transparent rounded-md group hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:text-gray-700 disabled:cursor-not-allowed '
-								disabled={isLoading || user?.balance <= 2}
+								disabled
 							>
 								<span className='absolute inset-y-0 left-0 flex items-center pl-3'></span>
-								Withdraw
+								Send
 							</button>
 						)}
 
