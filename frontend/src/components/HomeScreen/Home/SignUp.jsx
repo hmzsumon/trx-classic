@@ -67,7 +67,7 @@ const SignUp = () => {
 	useEffect(() => {
 		if (isSuccess) {
 			toast.success('Registration Successful');
-			navigate(`/email-verify?email=${email}`);
+			navigate('/dashboard');
 		}
 		if (isError) {
 			toast.error(error.data.message);

@@ -85,6 +85,7 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
 		sinUp_bonus: 50,
 		bonus_balance: 50,
 		verify_code,
+		email_verified: true,
 	});
 
 	// create usdx account
@@ -105,17 +106,13 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
 	});
 
 	// send verify code to user email
-	sendEmail({
-		email: newUser.email,
-		subject: 'TRX Classic Verification Code',
-		message: `Your verification code is ${verify_code}`,
-	});
+	// sendEmail({
+	// 	email: newUser.email,
+	// 	subject: 'TRX Classic Verification Code',
+	// 	message: `Your verification code is ${verify_code}`,
+	// });
 
-	res.status(201).json({
-		success: true,
-		message: 'User registered successfully',
-		user: newUser,
-	});
+	sendToken(newUser, 200, res);
 });
 
 // merchant registration
@@ -186,9 +183,9 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
 		return next(new ErrorHander('Invalid email or password', 401));
 	}
 	// check if user is email verified
-	if (user.is_newUser === true) {
-		return next(new ErrorHander('Please verify your email', 401));
-	}
+	// if (user.is_newUser === true) {
+	// 	return next(new ErrorHander('Please verify your email', 401));
+	// }
 
 	sendToken(user, 200, res);
 });
