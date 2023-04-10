@@ -5,6 +5,8 @@ const User = require('./../models/userModel');
 const Price = require('./../models/pxcPrice');
 const { sendMe, sendEmail } = require('../utils/sendEmail');
 const createTransaction = require('../utils/tnx');
+const getPrice = require('../utils/getPrice');
+const TrxcMining = require('../models/trxcMining');
 
 exports.createTransaction = catchAsyncErrors(async (req, res, next) => {
 	let {
@@ -333,5 +335,93 @@ exports.getLoginUserTransactions = catchAsyncErrors(async (req, res, next) => {
 	res.status(200).json({
 		success: true,
 		transactions,
+	});
+});
+
+// transfer bonus to main balance
+exports.transferBonusToMainBalance = catchAsyncErrors(
+	async (req, res, next) => {
+		const lastPrice = await getPrice();
+
+		const user = await User.findById(req.user._id);
+		if (!user) {
+			return new ErrorHander('User not found', 404);
+		}
+
+		// check if user has first deposit
+		if (user.first_deposit === false) {
+			return next(new ErrorHander('You have not made your first deposit', 400));
+		}
+
+		if (user.bonus_balance < 60) {
+			return next(new ErrorHander('You do not have enough bonus balance', 400));
+		}
+		const trxc = user.bonus_balance / lastPrice;
+		user.balance = user.balance + user.bonus_balance;
+		user.pxc_balance = user.pxc_balance + trxc;
+		createTransaction(
+			user._id,
+			'cashIn',
+			user.bonus_balance,
+			'receive',
+			`Transfer bonus to main balance Trxc ${trxc} `
+		);
+		user.bonus_balance = 0;
+
+		await user.save();
+		res.status(200).json({
+			success: true,
+			message: 'Bonus transfered to main balance',
+		});
+	}
+);
+
+// transfer trx mining profit to main balance
+exports.transferTrxMiningProfit = catchAsyncErrors(async (req, res, next) => {
+	const lastPrice = await getPrice();
+
+	const user = await User.findById(req.user._id);
+	if (!user) {
+		return new ErrorHander('User not found', 404);
+	}
+
+	// check if user has first deposit
+	if (user.first_deposit === false) {
+		return next(new ErrorHander('You have not made your first deposit', 400));
+	}
+
+	// find trx mining
+	const trxMining = await TrxcMining.findOne({ user_id: req.user.id });
+	if (!trxMining) {
+		return next(new ErrorHander('Trx mining not found', 404));
+	}
+
+	// check trx mining profit <10
+	if (trxMining.profit < 10) {
+		return next(
+			new ErrorHander('You do not have enough trx mining profit', 400)
+		);
+	}
+
+	const trxc = trxMining.profit / lastPrice;
+	user.balance = user.balance + trxMining.profit;
+	user.pxc_balance = user.pxc_balance + trxc;
+	createTransaction(
+		user._id,
+		'cashIn',
+		trxMining.profit,
+		'receive',
+		`Transfer trx mining profit to main balance Trxc ${Number(trxc).toFixed(
+			8
+		)} `
+	);
+	await user.save();
+	// update trx mining profit
+	trxMining.profit = 0;
+	await trxMining.save();
+
+	res.status(200).json({
+		success: true,
+		message: 'Trx mining profit transfered to main balance',
 	});
 });

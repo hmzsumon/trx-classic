@@ -290,6 +290,11 @@ const userSchema = new mongoose.Schema(
 			type: Boolean,
 			default: false,
 		},
+
+		is_first_deposit: {
+			type: Boolean,
+			default: false,
+		},
 	},
 
 	{

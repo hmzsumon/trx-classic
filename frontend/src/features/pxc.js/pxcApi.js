@@ -13,7 +13,7 @@ export const pxcApi = apiSlice.injectEndpoints({
 		}),
 
 		// buy pxc
-		buyPxc: builder.mutation({
+		buyTrxc: builder.mutation({
 			query: (data) => ({
 				url: '/deposit',
 				method: 'POST',
@@ -52,7 +52,7 @@ export const pxcApi = apiSlice.injectEndpoints({
 
 export const {
 	useSendPxcMutation,
-	useBuyPxcMutation,
+	useBuyTrxcMutation,
 	useGetDepositsQuery,
 	useBuyTrxcWithUsdtMutation,
 	useSellPxcMutation,

@@ -6,12 +6,12 @@ import CopyToClipboardButton from '../../global/CopyToClipboardButton';
 
 import BeatLoader from 'react-spinners/BeatLoader';
 import { useNavigate } from 'react-router-dom';
-import { useBuyPxcMutation } from '../../features/pxc.js/pxcApi';
+import { useBuyTrxcMutation } from '../../features/pxc.js/pxcApi';
 
-const BuyPXC = () => {
+const BuyTrxc = () => {
 	const navigate = useNavigate();
-	const [buyPXC, { isLoading, isError, isSuccess, error }] =
-		useBuyPxcMutation();
+	const [buyTrxc, { isLoading, isError, isSuccess, error }] =
+		useBuyTrxcMutation();
 	const [amount, setAmount] = useState(0);
 	const [sMethod, setSMethod] = useState(methods[0]);
 	const [next, setNext] = useState(false);
@@ -29,7 +29,7 @@ const BuyPXC = () => {
 		for (var pair of myForm.entries()) {
 			console.log(pair[0] + ', ' + pair[1]);
 		}
-		buyPXC(myForm);
+		buyTrxc(myForm);
 	};
 
 	useEffect(() => {
@@ -180,4 +180,4 @@ const BuyPXC = () => {
 	);
 };
 
-export default BuyPXC;
+export default BuyTrxc;

@@ -21,7 +21,6 @@ import { useLoadUserQuery } from './features/auth/authApi';
 import SignUpWithReferr from './components/HomeScreen/Home/SignUpWithReferr';
 
 import Referral from './components/Dashboard/User/Referral';
-import BuyPxc from './components/Wallet01/BuyPxc';
 import SendPxc from './components/Wallet01/SendPxc';
 import Receive from './components/Wallet01/Receive';
 import WithdrawUsdx from './components/Wallet02/WithdrawUsdx';
@@ -103,6 +102,7 @@ import PriceList from './components/Admin/Price/PriceList';
 import CreatePrice from './components/Admin/Price/CreatePrice';
 import NoticeList from './components/Admin/Notice/NoticeList';
 import CreateNotice from './components/Admin/Notice/CreateNotice';
+import BuyTrxc from './components/Wallet01/BuyTrxc';
 
 const darkTheme = createTheme({
 	palette: {
@@ -170,10 +170,10 @@ const App = () => {
 					}
 				/>
 				<Route
-					path='buy-pxc'
+					path='buy-trxc'
 					element={
 						<PrivateRoute>
-							<BuyPxc />
+							<BuyTrxc />
 						</PrivateRoute>
 					}
 				/>

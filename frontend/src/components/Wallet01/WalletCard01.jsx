@@ -25,7 +25,7 @@ const WalletCard01 = ({ user }) => {
 			</div>
 			<div className='grid grid-cols-4 gap-4 text-[0.6rem] md:text-sm'>
 				<NavLink
-					to='/buy-pxc'
+					to='/buy-trxc'
 					className='px-3 py-2 italic font-bold text-center text-gray-100 bg-yellow-600 rounded-sm'
 				>
 					Buy TRXC
@@ -47,7 +47,7 @@ const WalletCard01 = ({ user }) => {
 					to='/receive'
 					className='w-full px-3 py-2 italic font-bold text-center text-gray-100 bg-yellow-600 rounded-sm'
 				>
-					Deposit
+					Receive
 				</NavLink>
 			</div>
 		</div>

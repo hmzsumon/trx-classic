@@ -68,7 +68,10 @@ export const authApi = apiSlice.injectEndpoints({
 
 		// load user
 		loadUser: builder.query({
-			query: () => '/me',
+			query: () => ({
+				url: '/me',
+				method: 'GET',
+			}),
 			providesTags: ['Users', 'User'],
 			async onCacheEntryAdded(arg, { dispatch, cacheDataLoaded }) {
 				try {

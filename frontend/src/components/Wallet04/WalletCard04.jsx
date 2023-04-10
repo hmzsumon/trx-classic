@@ -8,12 +8,21 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 
+import FadeLoader from 'react-spinners/FadeLoader';
+import { toast } from 'react-toastify';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useTransferBonusMutation } from '../../features/tnx/tnxApi';
+import { useEffect } from 'react';
+
 const Transition = React.forwardRef(function Transition(props, ref) {
 	return <Slide direction='up' ref={ref} {...props} />;
 });
 
 const WalletCard04 = () => {
+	const [transferBonus, { isError, isLoading, isSuccess, error }] =
+		useTransferBonusMutation();
 	const { user } = useSelector((state) => state.auth);
+	const navigate = useNavigate();
 	const [open, setOpen] = React.useState(false);
 
 	const handleClickOpen = () => {
@@ -23,6 +32,61 @@ const WalletCard04 = () => {
 	const handleClose = () => {
 		setOpen(false);
 	};
+
+	const handleTransfer = () => {
+		transferBonus();
+		if (isSuccess) {
+			handleClose();
+		}
+	};
+
+	useEffect(() => {
+		if (isError) {
+			toast.error(error?.data?.message);
+		}
+
+		if (isSuccess) {
+			toast.success('Bonus transfer successfully!');
+			navigate('/all-history');
+		}
+	}, [isError, error, isSuccess, navigate]);
+
+	let dialogTitle = 'Transfer will be done minimum $60!';
+	let content = '';
+	if (!user?.is_first_deposit) {
+		dialogTitle = 'You have to make you have minimum buy 15$!';
+		content = (
+			<div className='flex items-center justify-center space-x-2'>
+				<NavLink
+					to='/buy-trxc'
+					className='px-3 py-2 italic font-bold text-center text-gray-100 bg-yellow-600 rounded-sm'
+				>
+					Buy TRXC
+				</NavLink>
+			</div>
+		);
+	} else if (user?.bonus_balance < 60) {
+		dialogTitle = 'You have to have minimum $60 bonus to transfer!';
+	} else if (user?.bonus_balance >= 60 && user?.is_first_deposit) {
+		dialogTitle = 'are you sure to transfer your bonus?';
+		content = (
+			<div className='flex items-center justify-center space-x-2'>
+				<button
+					className='px-3 py-2 italic font-bold text-center bg-yellow-500 rounded-sm text-slate-800 hover:bg-yellow-600 disabled:cursor-not-allowed'
+					onClick={handleTransfer}
+				>
+					Confirm
+				</button>
+				<button
+					className='px-3 py-2 italic font-bold text-center text-gray-800 bg-orange-500 rounded-sm disabled:cursor-not-allowed'
+					onClick={handleClose}
+				>
+					Cancel
+				</button>
+			</div>
+		);
+	}
+
 	return (
 		<div className='p-4 space-y-4 bg-teal-600 rounded-md'>
 			<div className='text-center '>
@@ -55,28 +119,33 @@ const WalletCard04 = () => {
 			</div>
 
 			{/* Dialog Start */}
-			<div>
-				<Dialog
-					open={open}
-					TransitionComponent={Transition}
-					keepMounted
-					onClose={handleClose}
-					aria-describedby='alert-dialog-slide-description'
-				>
-					<DialogTitle>{'Transfer will be done minimum $60!'}</DialogTitle>
-					<DialogContent>
-						{/* <DialogContentText id='alert-dialog-slide-description'>
-							Let Google help apps determine location. This means sending
-							anonymous location data to Google, even when no apps are running.
-						</DialogContentText> */}
-					</DialogContent>
-					<DialogActions>
-						<Button onClick={handleClose} sx={{ color: 'red' }}>
-							Close
-						</Button>
-					</DialogActions>
-				</Dialog>
-			</div>
+			{isLoading ? (
+				<div className='flex items-center justify-center'>
+					<FadeLoader color='#fbbf24' loading={isLoading} size={150} />
+				</div>
+			) : (
+				<div>
+					<Dialog
+						open={open}
+						TransitionComponent={Transition}
+						keepMounted
+						onClose={handleClose}
+						aria-describedby='alert-dialog-slide-description'
+					>
+						<DialogTitle>{dialogTitle}</DialogTitle>
+						<DialogContent>
+							<DialogContentText id='alert-dialog-slide-description'>
+								{content}
+							</DialogContentText>
+						</DialogContent>
+						<DialogActions>
+							<Button onClick={handleClose} sx={{ color: 'red' }}>
+								Close
+							</Button>
+						</DialogActions>
+					</Dialog>
+				</div>
+			)}
 			{/* Dialog End */}
 		</div>
 	);

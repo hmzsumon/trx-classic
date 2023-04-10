@@ -180,6 +180,7 @@ exports.approveDeposit = catchAsyncErrors(async (req, res, next) => {
 	);
 	let pxc = deposit.amount / currentPrice;
 	user.pxc_balance = user.pxc_balance + pxc;
+	user.is_first_deposit = true;
 	deposit.update_by.id = admin._id;
 	deposit.update_by.name = admin.name;
 	await user.save();

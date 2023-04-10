@@ -5,7 +5,7 @@ let URI = '';
 if (process.env.NODE_ENV === 'PRODUCTION') {
 	URI = process.env.DB_URI;
 } else {
-	URI = 'mongodb://0.0.0.0:27017/Payunx-Local';
+	URI = 'mongodb://0.0.0.0:27017/trx';
 }
 
 const connectDB = () => {
