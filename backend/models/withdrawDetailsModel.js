@@ -10,6 +10,9 @@ const withdrawDetailsSchema = new mongoose.Schema(
 		name: {
 			type: String,
 		},
+		email: {
+			type: String,
+		},
 		w_balance: {
 			type: Number,
 			default: 0,

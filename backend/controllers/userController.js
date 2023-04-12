@@ -88,21 +88,11 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
 		email_verified: true,
 	});
 
-	// create usdx account
-	const uuId = uuidv4().toString().replace(/-/g, '');
-	const usdxId = `X${uuId}`;
-	await Usdx.create({
-		usdx_id: usdxId,
-		user_name: newUser.name,
-		user_id: newUser._id,
-		usdx_balance: 0,
-		usdx_coin: 0,
-	});
-
 	// create withdraw details
 	await WithdrawDetails.create({
 		user_id: newUser._id,
 		name: newUser.name,
+		email: newUser.email,
 	});
 
 	// send verify code to user email

@@ -11,7 +11,7 @@ export const withdrawApi = apiSlice.injectEndpoints({
 		// create withdraw
 		createWithdraw: builder.mutation({
 			query: (data) => ({
-				url: '/withdraw',
+				url: '/new/withdraw',
 				method: 'POST',
 				body: data,
 			}),

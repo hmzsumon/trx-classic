@@ -1,25 +1,30 @@
 import React from 'react';
-import { Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { Navigate, Outlet } from 'react-router-dom';
 
-const PrivateRoute = ({ children, isAdmin }) => {
-	const { isAuthenticated, user } = useSelector((state) => state.auth);
+const PrivetRoute = ({ isAdmin }) => {
+	const { user, isAuthenticated } = useSelector((state) => state.auth);
 
-	return (
-		<>
-			{isAuthenticated === false ? (
-				<Navigate to='/login' />
-			) : isAdmin ? (
-				user.role !== 'admin' ? (
-					<Navigate to='/login' />
-				) : (
-					children
-				)
-			) : (
-				children
-			)}
-		</>
-	);
+	// check if user email_verified is true
+	if (user?.email_verified === false) {
+		return <Navigate to={`/email-verify?email=${user?.email}`} />;
+	}
+
+	if (!isAuthenticated) {
+		return <Navigate to='/login' />;
+	}
+
+	if (isAdmin) {
+		return user.role === 'admin' || user?.role === 'manager' ? (
+			<Outlet />
+		) : (
+			<Navigate to='/not-access' />
+		);
+	}
+
+	if (user.role === 'user') {
+		return <Outlet />;
+	}
 };
 
-export default PrivateRoute;
+export default PrivetRoute;

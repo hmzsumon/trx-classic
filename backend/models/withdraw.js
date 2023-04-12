@@ -25,44 +25,11 @@ const withdrawSchema = new mongoose.Schema(
 			type: Number,
 			require: true,
 		},
-		method: {
+		wallet: {
 			type: String,
-			enum: ['crypto', 'bank'],
 		},
-		// crypto details
-		crypto: {
-			crypto_name: {
-				type: String,
-			},
-			wallet_address: {
-				type: String,
-			},
-			tnx_id: {
-				type: String,
-			},
-		},
-		// bank details
-		bank: {
-			bank_name: {
-				type: String,
-				trim: true,
-			},
-			branch_name: {
-				type: String,
-				trim: true,
-			},
-			swift_code: {
-				type: String,
-				trim: true,
-			},
-			account_name: {
-				type: String,
-				trim: true,
-			},
-			account_number: {
-				type: String,
-				trim: true,
-			},
+		address: {
+			type: String,
 		},
 		status: {
 			type: String,
@@ -70,7 +37,7 @@ const withdrawSchema = new mongoose.Schema(
 			default: 'pending',
 		},
 		// approved
-		approved_by: {
+		update_by: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'User',
 			require: true,
@@ -81,11 +48,6 @@ const withdrawSchema = new mongoose.Schema(
 		is_approved: {
 			type: Boolean,
 		},
-		// cancelled
-		cancelled_by: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'User',
-		},
 		cancelled_at: {
 			type: Date,
 		},
@@ -95,61 +57,6 @@ const withdrawSchema = new mongoose.Schema(
 		cancelled_reason: {
 			type: String,
 			default: 'Not specified',
-		},
-		comment: {
-			type: String,
-			default: 'No comment',
-		},
-		approved_crypto: {
-			crypto_name: {
-				type: String,
-			},
-			wallet_address: {
-				type: String,
-			},
-
-			tnx_id: {
-				type: String,
-			},
-		},
-
-		approved_bank: {
-			bank_name: {
-				type: String,
-				trim: true,
-			},
-			branch_name: {
-				type: String,
-				trim: true,
-			},
-			swift_code: {
-				type: String,
-				trim: true,
-			},
-			account_name: {
-				type: String,
-				trim: true,
-			},
-			account_number: {
-				type: String,
-				trim: true,
-			},
-			transaction_id: {
-				type: String,
-				trim: true,
-			},
-
-			transaction_date: {
-				type: Date,
-			},
-
-			transaction_amount: {
-				type: Number,
-			},
-		},
-		is_new: {
-			type: Boolean,
-			default: true,
 		},
 	},
 	{

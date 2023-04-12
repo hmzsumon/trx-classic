@@ -49,7 +49,6 @@ import Trams from './components/HomeScreen/Home/Trams';
 import Exchange2 from './components/HomeScreen/Home/Exchange2';
 import Developers from './components/HomeScreen/Home/Developers';
 import MerRegister from './components/HomeScreen/Home/MerRegister';
-import PrivateRoute from './route/PrivateRoute';
 import MyLotteries from './components/Lottery/MyLotteries';
 import UserWinners from './components/Lottery/Winners';
 
@@ -103,6 +102,8 @@ import CreatePrice from './components/Admin/Price/CreatePrice';
 import NoticeList from './components/Admin/Notice/NoticeList';
 import CreateNotice from './components/Admin/Notice/CreateNotice';
 import BuyTrxc from './components/Wallet01/BuyTrxc';
+import PrivetRoute from './route/PrivateRoute';
+import CreateWithdraw from './components/Withdraw/CreateWithdraw';
 
 const darkTheme = createTheme({
 	palette: {
@@ -136,613 +137,115 @@ const App = () => {
 				<Route path='/forgot-pass' element={<ForgotPassword />} />
 				<Route path='/password/reset/:token' element={<PasswordReset />} />
 
-				<Route
-					path='/referral'
-					element={
-						<PrivateRoute>
-							<Referral />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path='/exchange'
-					element={
-						<PrivateRoute>
-							<Exchange />
-						</PrivateRoute>
-					}
-				/>
+				{/* Start Admin Route */}
+				<Route element={<PrivetRoute isAdmin={true} />}>
+					<Route path='/admin/users' element={<AdminUsers />} />
 
-				<Route
-					path='/trade'
-					element={
-						<PrivateRoute>
-							<Trade />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path='/dashboard'
-					element={
-						<PrivateRoute>
-							<Dashboard />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path='buy-trxc'
-					element={
-						<PrivateRoute>
-							<BuyTrxc />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path='/convert-usdt-to-pxc'
-					element={
-						<PrivateRoute>
-							<ConvertUsdtToPxc />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path='/mining'
-					element={
-						<PrivateRoute>
-							<Mining />
-						</PrivateRoute>
-					}
-				/>
-				{/* chart */}
-				<Route
-					path='/pxc_usdx_chart'
-					element={
-						<PrivateRoute>
-							<PxcUsdxView />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path='/bdc_usdx_chart'
-					element={
-						<PrivateRoute>
-							<BdcUsdxView />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path='/usdt_usdx_chart'
-					element={
-						<PrivateRoute>
-							<BdcUsdxView />
-						</PrivateRoute>
-					}
-				/>
-				{/*Admin Route*/}
-				<Route
-					path='/admin/dashboard'
-					element={
-						<PrivateRoute>
-							<AdminDashboard />
-						</PrivateRoute>
-					}
-				/>
-				{/* Admin Withdraw List */}
-				<Route
-					path='/admin/withdraws'
-					element={
-						<PrivateRoute>
-							<AdminWithdrawList />
-						</PrivateRoute>
-					}
-				/>
-				{/* Admin Withdraw Edit */}
-				<Route
-					path='/admin/withdraw/edit/:id'
-					element={
-						<PrivateRoute>
-							<EditWithdraw />
-						</PrivateRoute>
-					}
-				/>
+					<Route path='/admin/dashboard' element={<AdminDashboard />} />
 
-				{/*  Withdraw Proof */}
-				<Route
-					path='/withdraw/proof'
-					element={
-						<PrivateRoute>
-							<WithdrawProof />
-						</PrivateRoute>
-					}
-				/>
+					<Route path='/admin/withdraws' element={<AdminWithdrawList />} />
+					<Route path='/admin/withdraw/edit/:id' element={<EditWithdraw />} />
+					<Route path='/admin/withdraw' element={<AdminWithdraw />} />
+					<Route path='/withdraw/crypto' element={<Crypto />} />
+					<Route path='/withdraw/bank' element={<Bank />} />
 
-				{/* Withdraw View */}
-				<Route
-					path='/withdraw/view/:id'
-					element={
-						<PrivateRoute>
-							<WithdrawView />
-						</PrivateRoute>
-					}
-				/>
+					<Route path='/admin/deposits' element={<DepositList />} />
+					<Route path='/admin/deposit/edit/:id' element={<EditDeposit />} />
 
-				<Route
-					path='/my-lotteries'
-					element={
-						<PrivateRoute>
-							<MyLotteries />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path='/user/winners'
-					element={
-						<PrivateRoute>
-							<UserWinners />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path='/user/withdraws'
-					element={
-						<PrivateRoute>
-							<MyWithdraws />
-						</PrivateRoute>
-					}
-				/>
-				{/* Admin Deposit */}
+					<Route path='admin/create-tickets' element={<CreateTickets />} />
+					<Route path='/admin/lotteries' element={<AdminLotteries />} />
+					<Route path='/admin/draw' element={<AdminDraw />} />
+					<Route path='admin/sold-tickets' element={<SoldTickets />} />
+					<Route path='admin/winners' element={<Winners />} />
 
-				<Route
-					path='/admin/deposits'
-					element={
-						<PrivateRoute>
-							<DepositList />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path='/admin/deposit/edit/:id'
-					element={
-						<PrivateRoute>
-							<EditDeposit />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path='admin/withdraw'
-					element={
-						<PrivateRoute>
-							<AdminWithdraw />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path='admin/users'
-					element={
-						<PrivateRoute>
-							<AdminUsers />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path='admin/lotteries'
-					element={
-						<PrivateRoute>
-							<AdminLotteries />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path='admin/minings'
-					element={
-						<PrivateRoute>
-							<AdminMining />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path='admin/draw'
-					element={
-						<PrivateRoute>
-							<AdminDraw />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path='admin/sold-tickets'
-					element={
-						<PrivateRoute>
-							<SoldTickets />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path='admin/winners'
-					element={
-						<PrivateRoute>
-							<Winners />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path='admin/create-tickets'
-					element={
-						<PrivateRoute>
-							<CreateTickets />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path='/withdraw/crypto'
-					element={
-						<PrivateRoute>
-							<Crypto />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path='/withdraw/bank'
-					element={
-						<PrivateRoute>
-							<Bank />
-						</PrivateRoute>
-					}
-				/>
+					<Route path='/admin/minings' element={<AdminMining />} />
 
-				<Route
-					path='/mining/investment'
-					element={
-						<PrivateRoute>
-							<Investment />
-						</PrivateRoute>
-					}
-				/>
+					<Route
+						path='/admin/verification/edit/:id'
+						element={<EditVerification />}
+					/>
 
-				{/* Side Nav Items */}
-				<Route
-					path='/orders'
-					element={
-						<PrivateRoute>
-							<Orders />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path='/profile'
-					element={
-						<PrivateRoute>
-							<Profile />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path='/security'
-					element={
-						<PrivateRoute>
-							<Security />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path='/settings'
-					element={
-						<PrivateRoute>
-							<Settings />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path='/app-link'
-					element={
-						<PrivateRoute>
-							<AppLink />
-						</PrivateRoute>
-					}
-				/>
-				{/* Verification */}
-				<Route
-					path='/verification'
-					element={
-						<PrivateRoute>
-							<Verification />
-						</PrivateRoute>
-					}
-				/>
+					<Route path='/admin/loans' element={<LoanList />} />
+					<Route path='/admin/loan/edit/:id' element={<EditLoan />} />
 
-				<Route
-					path='/verification/document-1'
-					element={
-						<PrivateRoute>
-							<Document1 />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path='/verification/document-2'
-					element={
-						<PrivateRoute>
-							<Document2 />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path='/verification/profile-photo'
-					element={
-						<PrivateRoute>
-							<ProfilePic />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path='/verification/submit'
-					element={
-						<PrivateRoute>
-							<Submit />
-						</PrivateRoute>
-					}
-				/>
+					{/* Price */}
+					<Route path='/admin/prices' element={<PriceList />} />
+					<Route path='/create-price' element={<CreatePrice />} />
+					{/* Notice */}
+					<Route path='/admin/notice' element={<NoticeList />} />
+					<Route path='/create-notice' element={<CreateNotice />} />
 
-				{/* Admin Verification */}
-				<Route
-					path='/admin/verifications'
-					element={
-						<PrivateRoute>
-							<Verifications />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path='/admin/verification/edit/:id'
-					element={
-						<PrivateRoute>
-							<EditVerification />
-						</PrivateRoute>
-					}
-				/>
-				{/* View image */}
-				<Route
-					path='/view-image/'
-					element={
-						<PrivateRoute>
-							<ViewImg />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path='/verify/message'
-					element={
-						<PrivateRoute>
-							<VerifyMessage />
-						</PrivateRoute>
-					}
-				/>
+					<Route path='/admin/merchants' element={<MerchantList />} />
+					<Route path='/admin/merchant/edit/:id' element={<EditMerchant />} />
+				</Route>
+				{/* End Admin Route */}
 
-				<Route
-					path='/history'
-					element={
-						<PrivateRoute>
-							<History />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path='/all-history'
-					element={
-						<PrivateRoute>
-							<AllHistory />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path='/wallets'
-					element={
-						<PrivateRoute>
-							<Wallets />
-						</PrivateRoute>
-					}
-				/>
+				{/* Start User Route */}
+				<Route element={<PrivetRoute />}>
+					<Route path='/dashboard' element={<Dashboard />} />
+					<Route path='/referral' element={<Referral />} />
+					<Route path='/exchange' element={<Exchange />} />
+					<Route path='/trade' element={<Trade />} />
 
-				<Route
-					path='/buy-history'
-					element={
-						<PrivateRoute>
-							<BuyHistory />
-						</PrivateRoute>
-					}
-				/>
-				{/* Loan Route */}
-				<Route
-					path='/loan'
-					element={
-						<PrivateRoute>
-							<Loan />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path='/loan/address-1'
-					element={
-						<PrivateRoute>
-							<Address1 />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path='/loan/address-2'
-					element={
-						<PrivateRoute>
-							<Address2 />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path='/loan/submission'
-					element={
-						<PrivateRoute>
-							<LoanSubmit />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path='/loan/message'
-					element={
-						<PrivateRoute>
-							<LoanMessage />
-						</PrivateRoute>
-					}
-				/>
-				{/* Admin Loan */}
-				<Route
-					path='/admin/loans'
-					element={
-						<PrivateRoute>
-							<LoanList />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path='/admin/loan/edit/:id'
-					element={
-						<PrivateRoute>
-							<EditLoan />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path='/support'
-					element={
-						<PrivateRoute>
-							<Support />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path='/p2p'
-					element={
-						<PrivateRoute>
-							<P2P />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path='/convert'
-					element={
-						<PrivateRoute>
-							<Convert />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path='/lottery'
-					element={
-						<PrivateRoute>
-							<Lottery />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path='/send'
-					element={
-						<PrivateRoute>
-							<SendPxc />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path='/receive'
-					element={
-						<PrivateRoute>
-							<Receive />
-						</PrivateRoute>
-					}
-				/>
-				{/* WithdrawUsdx */}
-				<Route
-					path='/usdx-withdraw'
-					element={
-						<PrivateRoute>
-							<WithdrawUsdx />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path='/send-usdx'
-					element={
-						<PrivateRoute>
-							<SendUsdx />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path='/receive-usdx'
-					element={
-						<PrivateRoute>
-							<ReceiveUsdx />
-						</PrivateRoute>
-					}
-				/>
-				{/* Merchant */}
-				<Route
-					path='/merchant'
-					element={
-						<PrivateRoute>
-							<Merchant />
-						</PrivateRoute>
-					}
-				/>
+					<Route path='buy-trxc' element={<BuyTrxc />} />
+					<Route path='/convert-usdt-to-pxc' element={<ConvertUsdtToPxc />} />
 
-				{/* Admin Merchant */}
-				<Route
-					path='/admin/merchants'
-					element={
-						<PrivateRoute>
-							<MerchantList />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path='/admin/merchant/edit/:id'
-					element={
-						<PrivateRoute>
-							<EditMerchant />
-						</PrivateRoute>
-					}
-				/>
+					<Route path='/mining' element={<Mining />} />
+					<Route path='/mining/investment' element={<Investment />} />
 
-				{/* Price */}
-				<Route
-					path='/admin/prices'
-					element={
-						<PrivateRoute>
-							<PriceList />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path='/create-price'
-					element={
-						<PrivateRoute>
-							<CreatePrice />
-						</PrivateRoute>
-					}
-				/>
-				{/* Notice */}
-				<Route
-					path='/admin/notice'
-					element={
-						<PrivateRoute>
-							<NoticeList />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path='/create-notice'
-					element={
-						<PrivateRoute>
-							<CreateNotice />
-						</PrivateRoute>
-					}
-				/>
+					<Route path='/pxc_usdx_chart' element={<PxcUsdxView />} />
+					<Route path='/bdc_usdx_chart' element={<BdcUsdxView />} />
+					<Route path='/usdt_usdx_chart' element={<BdcUsdxView />} />
+
+					<Route path='/withdraw/proof' element={<WithdrawProof />} />
+					<Route path='/user/withdraws' element={<MyWithdraws />} />
+					<Route path='/withdraw/view/:id' element={<WithdrawView />} />
+					<Route path='/create-withdraw' element={<CreateWithdraw />} />
+
+					<Route path='/lottery' element={<Lottery />} />
+					<Route path='/my-lotteries' element={<MyLotteries />} />
+					<Route path='/user/winners' element={<UserWinners />} />
+
+					<Route path='/profile' element={<Profile />} />
+					<Route path='/security' element={<Security />} />
+					<Route path='/settings' element={<Settings />} />
+
+					<Route path='/app-link' element={<AppLink />} />
+
+					<Route path='/orders' element={<Orders />} />
+					<Route path='/verification' element={<Verification />} />
+					<Route path='/verification/document-1' element={<Document1 />} />
+					<Route path='/verification/document-2' element={<Document2 />} />
+					<Route path='/verification/profile-photo' element={<ProfilePic />} />
+					<Route path='/verification/submit' element={<Submit />} />
+
+					<Route path='/view-image/' element={<ViewImg />} />
+					<Route path='/verify/message' element={<VerifyMessage />} />
+					<Route path='/history' element={<History />} />
+					<Route path='/all-history' element={<AllHistory />} />
+
+					<Route path='/wallets' element={<Wallets />} />
+					<Route path='/buy-history' element={<BuyHistory />} />
+					<Route path='/loan' element={<Loan />} />
+					<Route path='/loan/address-2' element={<Address2 />} />
+					<Route path='/loan/address-1' element={<Address1 />} />
+					<Route path='/loan/submission' element={<LoanSubmit />} />
+					<Route path='/loan/message' element={<LoanMessage />} />
+
+					<Route path='/support' element={<Support />} />
+					<Route path='/p2p' element={<P2P />} />
+					<Route path='/send' element={<SendPxc />} />
+					<Route path='/receive' element={<Receive />} />
+					<Route path='/convert' element={<Convert />} />
+
+					<Route path='/usdx-withdraw' element={<WithdrawUsdx />} />
+					<Route path='/send-usdx' element={<SendUsdx />} />
+					<Route path='/receive-usdx' element={<ReceiveUsdx />} />
+
+					<Route path='/merchant' element={<Merchant />} />
+				</Route>
+				{/* End User Route */}
+
 				<Route path='*' element={<NotFound />}></Route>
 			</Routes>
 			<ToastContainer />

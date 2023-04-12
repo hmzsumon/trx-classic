@@ -38,7 +38,7 @@ const WalletCard01 = ({ user }) => {
 				</NavLink>
 
 				<NavLink
-					to='/send'
+					to='/create-withdraw'
 					className='w-full px-3 py-2 italic font-bold text-center text-gray-100 bg-yellow-600 rounded-sm'
 				>
 					Withdraw
