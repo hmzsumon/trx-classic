@@ -160,6 +160,7 @@ const App = () => {
 
 					<Route path='/admin/minings' element={<AdminMining />} />
 
+					<Route path='/admin/verifications' element={<Verifications />} />
 					<Route
 						path='/admin/verification/edit/:id'
 						element={<EditVerification />}
