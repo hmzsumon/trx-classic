@@ -189,7 +189,7 @@ const userSchema = new mongoose.Schema(
 		},
 		email_verified: {
 			type: Boolean,
-			default: false,
+			default: true,
 		},
 		is_identity_verified: {
 			type: Boolean,
@@ -201,7 +201,7 @@ const userSchema = new mongoose.Schema(
 		},
 		active_status: {
 			type: Boolean,
-			default: true,
+			default: false,
 		},
 		address_verified: {
 			type: Boolean,
