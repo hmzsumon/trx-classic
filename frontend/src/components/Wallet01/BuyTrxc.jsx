@@ -144,6 +144,10 @@ const BuyTrxc = () => {
 									<h2 className='text-xs text-center'>
 										Please Enter Your Transaction ID
 									</h2>
+									<p className='text-xs text-center text-red-500 '>
+										Send 100% dollars and set the correct transaction ID. If you
+										put the wrong transaction ID, then the ID will be blocked.
+									</p>
 									<input
 										type='text'
 										className='w-full px-3 py-4 mt-2 text-sm font-semibold text-gray-100 bg-transparent border rounded-md focus:outline-none'

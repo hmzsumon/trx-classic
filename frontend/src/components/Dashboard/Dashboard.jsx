@@ -12,6 +12,7 @@ import PriceList2 from './PriceList2';
 import WalletCard09 from '../Wallet09/WalletCard09';
 import WalletCard10 from '../Wallet10/WalletCard10';
 import Lunch from './Lunch';
+import Supports from './Supports';
 const Dashboard = () => {
 	const { data } = useGetPricesQuery();
 	const { currentPrice } = data || {};
@@ -20,6 +21,7 @@ const Dashboard = () => {
 		<Layout>
 			<div className='h-full pb-20 space-y-4 '>
 				<Notice />
+				<Supports />
 				<Lunch />
 				{/* <Menu /> */}
 				{/* <Carousel /> */}
