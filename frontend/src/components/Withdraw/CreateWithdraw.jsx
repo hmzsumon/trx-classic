@@ -56,7 +56,7 @@ const CreateWithdraw = () => {
 				<h3 className='py-1 text-xs text-center bg-transparent border rounded-md'>
 					Your Current Balance is{' '}
 					<span className='font-semibold text-green-500'>
-						{user?.pxc_balance.toFixed(8)} TRXC
+						{Number(user?.pxc_balance).toFixed(8)} TRXC
 					</span>
 				</h3>
 				<form className='mt-8 space-y-6' onSubmit={handleSubmit}>
@@ -127,7 +127,6 @@ const CreateWithdraw = () => {
 								// disabled={
 								// 	user.pxc_balance <= 1000 || address === '' || amount < 1000
 								// }
-								disabled
 							>
 								<span className='absolute inset-y-0 left-0 flex items-center pl-3'></span>
 								Withdraw Start 1 May 2023

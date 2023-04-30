@@ -54,9 +54,9 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
 		if (!ref_user) {
 			new Error('User not found');
 		}
-		ref_user.referral_bonus += 5;
-		ref_user.bonus_balance += 5;
-		createTransaction(ref_user._id, 'cashIn', 5, 'bonus', 'Referral bonus ');
+		ref_user.referral_bonus += 0;
+		ref_user.bonus_balance += 0;
+		// createTransaction(ref_user._id, 'cashIn', 5, 'bonus', 'Referral bonus ');
 		await ref_user.save();
 	}
 
@@ -82,8 +82,8 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
 		customer_id,
 		password,
 		sponsor_id: referral_id ? referral_id : null,
-		sinUp_bonus: 50,
-		bonus_balance: 50,
+		sinUp_bonus: 0,
+		bonus_balance: 0,
 		verify_code,
 		email_verified: true,
 	});

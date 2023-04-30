@@ -146,7 +146,7 @@ const WalletCard09 = () => {
 					<button
 						className='px-3 py-2 italic font-bold text-center bg-yellow-500 rounded-sm text-slate-800 hover:bg-yellow-600 disabled:cursor-not-allowed'
 						onClick={handleStartTrxcMining}
-						disabled={isLoading}
+						disabled
 					>
 						{isLoading ? (
 							<ButtonLoader bgColor='bg-yellow-500' />
@@ -157,10 +157,10 @@ const WalletCard09 = () => {
 				)}
 
 				<button
-					className='px-3 py-2 italic font-bold text-center text-gray-800 bg-yellow-500 rounded-sm tex disabled:cursor-not-allowed'
+					className='px-3 py-2 italic font-bold text-center text-red-500 bg-yellow-500 rounded-sm tex disabled:cursor-not-allowed'
 					disabled
 				>
-					Expire: 30 April 2023
+					All Ready Expire
 				</button>
 			</div>
 			{/* Dialog Start */}

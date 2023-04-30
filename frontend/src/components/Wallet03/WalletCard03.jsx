@@ -30,10 +30,7 @@ const WalletCard03 = () => {
 				>
 					Start Invest
 				</NavLink>
-				<button
-					className='px-3 py-2 italic font-bold text-center text-gray-800 bg-yellow-500 rounded-sm disabled:cursor-not-allowed'
-					disabled
-				>
+				<button className='px-3 py-2 italic font-bold text-center text-gray-800 bg-yellow-500 rounded-sm disabled:cursor-not-allowed'>
 					Withdraw
 				</button>
 				<NavLink

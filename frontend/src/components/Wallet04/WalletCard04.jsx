@@ -111,10 +111,10 @@ const WalletCard04 = () => {
 					Transfer
 				</button>
 				<button
-					className='px-3 py-2 italic font-bold text-center text-gray-800 bg-yellow-500 rounded-sm disabled:cursor-not-allowed'
+					className='px-3 py-2 italic font-bold text-center text-red-500 bg-yellow-500 rounded-sm disabled:cursor-not-allowed'
 					disabled
 				>
-					Expire: 30 April 2023
+					All Ready Expire
 				</button>
 			</div>
 
