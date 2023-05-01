@@ -32,10 +32,10 @@ const AllHistory = () => {
 			renderCell: (params) => {
 				return (
 					<div className='mx-auto'>
-						<span className=' text-green-500 '>
+						<span className='text-green-500 '>
 							{params.row.transactionType === 'cashIn' && 'Cash In'}
 						</span>
-						<span className=' text-red-500 text-center '>
+						<span className='text-center text-red-500 '>
 							{params.row.transactionType === 'cashOut' && 'Cash Out'}
 						</span>
 					</div>
@@ -51,15 +51,15 @@ const AllHistory = () => {
 			flex: 0.2,
 			renderCell: (params) => {
 				return (
-					<div className=' mx-auto'>
+					<div className='mx-auto '>
 						{params.row.transactionType === 'cashIn' && (
-							<span className=' flex items-center   text-green-500 '>
+							<span className='flex items-center text-green-500 '>
 								+ {params.row.amount.toLocaleString()}$
 							</span>
 						)}
 
 						{params.row.transactionType === 'cashOut' && (
-							<span className=' flex items-center  text-red-500 '>
+							<span className='flex items-center text-red-500 '>
 								- {params.row.amount.toLocaleString()}$
 							</span>
 						)}
@@ -76,7 +76,7 @@ const AllHistory = () => {
 			renderCell: (params) => {
 				return (
 					<div className='mx-auto'>
-						<span className=' text-gray-100 capitalize'>
+						<span className='text-xs text-gray-100 capitalize '>
 							{params.row.purpose}
 						</span>
 					</div>
@@ -90,7 +90,9 @@ const AllHistory = () => {
 			minWidth: 200,
 			flex: 1,
 			renderCell: (params) => {
-				return <span className=' ml-5 '>{params.row.description}</span>;
+				return (
+					<span className=' text-[.6rem] ml-5 '>{params.row.description}</span>
+				);
 			},
 		},
 	];
@@ -117,11 +119,11 @@ const AllHistory = () => {
 				</div>
 			) : (
 				<div className='px-2 md:px-20'>
-					<h1 className='text-lg font-medium uppercase my-4'>
+					<h1 className='my-4 text-lg font-medium uppercase'>
 						transactions: {transactions && transactions.length}
 					</h1>
 					<div
-						className='bg-slate-800 rounded-xl shadow-lg w-full'
+						className='w-full shadow-lg bg-slate-800 rounded-xl'
 						style={{ height: 470 }}
 					>
 						<DataGrid

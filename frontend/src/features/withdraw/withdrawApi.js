@@ -39,7 +39,7 @@ export const withdrawApi = apiSlice.injectEndpoints({
 		// approve pending withdraw
 		approveWithdraw: builder.mutation({
 			query: (data) => ({
-				url: '/withdraw/approve/',
+				url: '/withdraw/approve',
 				method: 'PUT',
 				body: data,
 			}),
@@ -49,7 +49,7 @@ export const withdrawApi = apiSlice.injectEndpoints({
 		// cancel pending withdraw
 		cancelWithdraw: builder.mutation({
 			query: (data) => ({
-				url: '/withdraw/cancel/',
+				url: '/withdraw/cancel',
 				method: 'PUT',
 				body: data,
 			}),

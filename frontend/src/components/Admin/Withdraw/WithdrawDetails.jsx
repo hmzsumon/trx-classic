@@ -4,7 +4,7 @@ import { formatDate } from '../../../utils/functions';
 const WithdrawDetails = ({ withdraw, withdrawDetails }) => {
 	return (
 		<div className='my-4 text-xs'>
-			<div className='border px-3 py-2 space-y-1'>
+			<div className='px-3 py-2 space-y-1 border'>
 				<div className='grid grid-cols-2'>
 					<p>Name:</p>
 					<p>{withdraw?.name}</p>
@@ -19,7 +19,7 @@ const WithdrawDetails = ({ withdraw, withdrawDetails }) => {
 				</div>
 				<div className='grid grid-cols-2'>
 					<p>Charge:</p>
-					<p>{withdraw?.charge}$</p>
+					<p>{Number(withdraw.charge ? withdraw.charge : 0).toFixed(2)}$</p>
 				</div>
 				<div className='grid grid-cols-2'>
 					<p>Status:</p>
@@ -38,7 +38,7 @@ const WithdrawDetails = ({ withdraw, withdrawDetails }) => {
 				</div>
 				<div className='grid grid-cols-2'>
 					<p>Method:</p>
-					<p>{withdraw?.method}</p>
+					<p>{withdraw?.wallet}</p>
 				</div>
 				{withdraw?.method === 'bank' && (
 					<>
@@ -81,10 +81,14 @@ const WithdrawDetails = ({ withdraw, withdrawDetails }) => {
 						</div>
 					</>
 				)}
-				<hr className=' h-px my-8 bg-gray-200 border-0 dark:bg-gray-700' />
+				<hr className='h-px my-8 bg-gray-200 border-0 dark:bg-gray-700' />
 				<div className='grid grid-cols-2'>
-					<p>Last Withdraw:</p>
+					<p>Last Withdraw amount:</p>
 					<p>{withdrawDetails?.last_withdraw_amount}$</p>
+				</div>
+				<div className='grid grid-cols-2'>
+					<p>Last Withdraw Date:</p>
+					<p>{formatDate(withdrawDetails?.last_withdraw_date)}</p>
 				</div>
 				<div className='grid grid-cols-2'>
 					<p>Total Withdraw:</p>

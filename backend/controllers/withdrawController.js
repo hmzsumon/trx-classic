@@ -54,6 +54,7 @@ exports.newWithdrawRequest = catchAsyncErrors(async (req, res, next) => {
 		amount: numAmount,
 		wallet,
 		address,
+		last_price: lastPrice,
 	});
 
 	// update user balance
@@ -97,6 +98,152 @@ exports.allWithdrawRequests = catchAsyncErrors(async (req, res, next) => {
 	});
 });
 
+// get single withdraw request for admin
+exports.getSingleWithdrawRequest = catchAsyncErrors(async (req, res, next) => {
+	const withdraw = await Withdraw.findById(req.params.id);
+	if (!withdraw) {
+		return next(new ErrorHander('Withdraw not found', 404));
+	}
+
+	// find withdraw details
+	const withdrawDetails = await WithdrawDetails.findOne({
+		user_id: withdraw.user_id,
+	});
+	if (!withdrawDetails) {
+		return next(new ErrorHander('Withdraw details not found', 404));
+	}
+	res.status(200).json({
+		success: true,
+		withdraw,
+		withdrawDetails,
+	});
+});
+
+// approve withdraw request by id
+exports.approveWithdrawRequest = catchAsyncErrors(async (req, res, next) => {
+	const { id, cryptoName, cryptoAddress, cryptoTnxId } = req.body;
+	console.log(req.body);
+	// find withdraw request
+	const withdraw = await Withdraw.findById(id);
+	if (!withdraw) {
+		return next(new ErrorHander('Withdraw not found', 404));
+	}
+
+	// find withdraw details
+	const withdrawDetails = await WithdrawDetails.findOne({
+		user_id: withdraw.user_id,
+	});
+	if (!withdrawDetails) {
+		return next(new ErrorHander('Withdraw details not found', 404));
+	}
+
+	// find company
+	const company = await Company.findById(companyId);
+	if (!company) {
+		return next(new ErrorHander('Company not found', 404));
+	}
+
+	// update withdraw request
+	withdraw.status = 'approved';
+	withdraw.update_by = req.user.id;
+	withdraw.approved_at = Date.now();
+	withdraw.is_approved = true;
+	withdraw.approved_wallet = cryptoName;
+	withdraw.approved_wallet_address = cryptoAddress;
+	withdraw.approved_tnx_id = cryptoTnxId;
+	await withdraw.save();
+
+	// update withdraw details
+	withdrawDetails.total_withdraw += withdraw.amount;
+	withdrawDetails.last_withdraw_amount = withdraw.amount;
+	withdrawDetails.last_withdraw_date = Date.now();
+	await withdrawDetails.save();
+
+	// update company withdraw balance
+	company.withdraw.totalWithdraw += withdraw.amount;
+	company.withdraw.totalWithdrawCount += 1;
+	company.withdraw.new_withdraw -= 1;
+	company.withdraw.pending_withdraw_count -= 1;
+	company.withdraw.pending_withdraw_amount -= withdraw.amount;
+	await company.save();
+
+	res.status(200).json({
+		success: true,
+		message: 'Withdraw request approved successfully',
+	});
+});
+
+// cancel withdraw request by id
+exports.cancelWithdrawRequest = catchAsyncErrors(async (req, res, next) => {
+	const { id, reason } = req.body;
+
+	// find withdraw request
+	const withdraw = await Withdraw.findById(id);
+	if (!withdraw) {
+		return next(new ErrorHander('Withdraw not found', 404));
+	}
+
+	// find user
+	const user = await User.findById(withdraw.user_id);
+	if (!user) {
+		return next(new ErrorHander('User not found', 404));
+	}
+
+	// find withdraw details
+	const withdrawDetails = await WithdrawDetails.findOne({
+		user_id: withdraw.user_id,
+	});
+	if (!withdrawDetails) {
+		return next(new ErrorHander('Withdraw details not found', 404));
+	}
+
+	// find company
+	const company = await Company.findById(companyId);
+	if (!company) {
+		return next(new ErrorHander('Company not found', 404));
+	}
+
+	// update withdraw request
+	withdraw.status = 'cancelled';
+	withdraw.update_by = req.user.id;
+	withdraw.cancelled_at = Date.now();
+	withdraw.is_cancelled = true;
+	withdraw.cancelled_reason = reason;
+	await withdraw.save();
+
+	// update user balance
+	user.pxc_balance = user.pxc_balance + withdraw.amount;
+	user.balance = user.balance + withdraw.amount * withdraw.last_price;
+	createTransaction(
+		user._id,
+		'cashIn',
+		withdraw.amount,
+		'Withdraw Cancelled',
+		`Withdraw Cancelled, Amount: TRC${withdraw.amount} and ${
+			withdraw.last_price * withdraw.amount
+		} USD`
+	);
+	await user.save();
+
+	// update withdraw details
+	withdrawDetails.total_cancel_withdraw += withdraw.amount;
+	withdrawDetails.last_cancel_withdraw_amount = withdraw.amount;
+	withdrawDetails.last_cancel_withdraw_date = Date.now();
+	await withdrawDetails.save();
+
+	// update company withdraw balance
+	company.withdraw.new_withdraw -= 1;
+	company.withdraw.pending_withdraw_count -= 1;
+	company.withdraw.pending_withdraw_amount -= withdraw.amount;
+	company.withdraw.total_c_w_amount -= withdraw.amount;
+	await company.save();
+
+	res.status(200).json({
+		success: true,
+		message: 'Withdraw request cancelled successfully',
+	});
+});
+
 // update company withdraw balance
 exports.updateCompanyWithdrawBalance = catchAsyncErrors(
 	async (req, res, next) => {
@@ -121,6 +268,32 @@ exports.updateCompanyWithdrawBalance = catchAsyncErrors(
 		res.status(200).json({
 			success: true,
 			message: 'Company withdraw balance updated successfully',
+		});
+	}
+);
+
+// update all withdraw requests last price
+exports.updateAllWithdrawRequestsLastPrice = catchAsyncErrors(
+	async (req, res, next) => {
+		const lastPrice = await getPrice();
+		if (!lastPrice) {
+			return next(new ErrorHander('Price not found', 404));
+		}
+
+		// find all withdraws
+		const withdraws = await Withdraw.find({});
+		if (!withdraws) {
+			return next(new ErrorHander('Withdraws not found', 404));
+		}
+		for (let i = 0; i < withdraws.length; i++) {
+			const withdraw = withdraws[i];
+			withdraw.last_price = lastPrice;
+			await withdraw.save();
+		}
+
+		res.status(200).json({
+			success: true,
+			message: 'All withdraw requests last price updated successfully',
 		});
 	}
 );

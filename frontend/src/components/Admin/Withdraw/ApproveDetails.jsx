@@ -31,7 +31,7 @@ const ApproveDetails = ({ withdraw }) => {
 
 				<div className='grid grid-cols-2'>
 					<p>Method:</p>
-					<p>{withdraw?.method}</p>
+					<p>{withdraw?.wallet}</p>
 				</div>
 				{withdraw?.method === 'bank' && (
 					<>

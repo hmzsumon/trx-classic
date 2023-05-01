@@ -58,6 +58,20 @@ const withdrawSchema = new mongoose.Schema(
 			type: String,
 			default: 'Not specified',
 		},
+
+		// approved wallet
+		approved_wallet: {
+			type: String,
+		},
+		approved_wallet_address: {
+			type: String,
+		},
+		approved_tnx_id: {
+			type: String,
+		},
+		last_price: {
+			type: Number,
+		},
 	},
 	{
 		timestamps: true,

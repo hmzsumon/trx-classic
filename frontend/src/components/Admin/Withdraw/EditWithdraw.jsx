@@ -24,8 +24,8 @@ const EditWithdraw = () => {
 				</div>
 			) : (
 				<div className='p-6'>
-					<h2 className='text-center text-sm'>
-						<span className=' italic text-green-500'>{withdraw?.name}</span>{' '}
+					<h2 className='text-sm text-center'>
+						<span className='italic text-green-500 '>{withdraw?.name}</span>{' '}
 						Withdraw Details
 					</h2>
 					<WithdrawDetails
@@ -43,8 +43,7 @@ const EditWithdraw = () => {
 					)}
 					{withdraw?.status === 'pending' && (
 						<>
-							{method === 'crypto' && <EditWithCrypto id={id} />}
-							{method === 'bank' && <EditWithBank id={id} />}
+							<EditWithCrypto id={id} />
 						</>
 					)}
 				</div>

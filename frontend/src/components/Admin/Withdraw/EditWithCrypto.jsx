@@ -121,7 +121,7 @@ const EditWithCrypto = ({ id }) => {
 						<Box className='my-2 space-y-2'>
 							<TextField
 								id='outlined-basic'
-								label='Crypto Name'
+								label='Wallet Name'
 								variant='outlined'
 								type='text'
 								fullWidth
@@ -132,7 +132,7 @@ const EditWithCrypto = ({ id }) => {
 
 							<TextField
 								id='outlined-basic'
-								label='Crypto Address'
+								label='Address'
 								variant='outlined'
 								type='text'
 								fullWidth
@@ -143,7 +143,7 @@ const EditWithCrypto = ({ id }) => {
 
 							<TextField
 								id='outlined-basic'
-								label='Crypto Tnx Id'
+								label='Tnx Id'
 								variant='outlined'
 								type='text'
 								fullWidth
