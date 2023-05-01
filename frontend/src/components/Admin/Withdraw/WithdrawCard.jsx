@@ -15,7 +15,8 @@ const WithdrawCard = ({ title = 'Admin Info', withdraw }) => {
 				</div>
 				<div className='flex items-center justify-between'>
 					<p className='text-xs italic font-semibold'>
-						Pending Amount: {withdraw?.pending_withdraw_amount}$
+						Pending Amount:{' '}
+						{Number(withdraw?.pending_withdraw_amount).toFixed(2)}$
 					</p>
 					<p className='text-xs italic font-semibold'>
 						Total W-Charge: {withdraw?.total_w_charge}

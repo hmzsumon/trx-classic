@@ -56,19 +56,19 @@ exports.getUserTrxcMining = catchAsyncErrors(async (req, res, next) => {
 });
 
 // cron job to update mining profit every 10 usd in 24 hours
-cron
-	.schedule('*/1 * * * *', async () => {
-		const trxcMining = await TrxcMining.find({ status: 'active' });
-		const oneDayProfit = 10;
-		const oneHourProfit = oneDayProfit / 24;
-		const oneMinuteProfit = oneHourProfit / 60;
-		for (let i = 0; i < trxcMining.length; i++) {
-			const mining = trxcMining[i];
-			mining.profit = mining.profit + oneMinuteProfit;
-			await mining.save();
+// cron
+// 	.schedule('*/1 * * * *', async () => {
+// 		const trxcMining = await TrxcMining.find({ status: 'active' });
+// 		const oneDayProfit = 10;
+// 		const oneHourProfit = oneDayProfit / 24;
+// 		const oneMinuteProfit = oneHourProfit / 60;
+// 		for (let i = 0; i < trxcMining.length; i++) {
+// 			const mining = trxcMining[i];
+// 			mining.profit = mining.profit + oneMinuteProfit;
+// 			await mining.save();
 
-			// console.log(mining.profit, mining.name);
-		}
-		// console.log(oneMinuteProfit);
-	})
-	.start();
+// 			// console.log(mining.profit, mining.name);
+// 		}
+// 		// console.log(oneMinuteProfit);
+// 	})
+// 	.start();

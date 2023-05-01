@@ -4,21 +4,21 @@ const Countdown = ({ profit }) => {
 	const [stateProfit, setStateProfit] = useState(profit);
 	let interval;
 
-	const startTimer = () => {
-		interval = setInterval(() => {
-			setStateProfit((prevState) => prevState + 0.00011574);
-		}, 1000);
-	};
+	// const startTimer = () => {
+	// 	interval = setInterval(() => {
+	// 		setStateProfit((prevState) => prevState + 0.00011574);
+	// 	}, 1000);
+	// };
 
 	// componentDidMount
-	useEffect(() => {
-		if (profit) {
-			startTimer();
-		}
-		return () => {
-			clearInterval(interval);
-		};
-	});
+	// useEffect(() => {
+	// 	if (profit) {
+	// 		startTimer();
+	// 	}
+	// 	return () => {
+	// 		clearInterval(interval);
+	// 	};
+	// });
 
 	return (
 		<>

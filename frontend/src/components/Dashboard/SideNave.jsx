@@ -116,9 +116,7 @@ export default function SideNave() {
 		>
 			<div className='px-6 py-5'>
 				<h1 className='text-sm font-semibold text-gray-100'>{user?.name}</h1>
-				<h1 className='text-xs font-semibold text-gray-100 capitalize'>
-					{user?.email}
-				</h1>
+				<h1 className='text-xs font-semibold text-gray-100 '>{user?.email}</h1>
 				{user?.is_identity_verified ? (
 					<h1 className='flex items-center space-x-1 text-xs font-semibold text-green-500'>
 						<span>Verified</span>

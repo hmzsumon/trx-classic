@@ -95,7 +95,7 @@ const SendUsdx = () => {
 						) : (
 							<button
 								type='submit'
-								className='relative flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-green-500 border border-transparent rounded-md group hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500  disabled:text-gray-700 disabled:cursor-not-allowed '
+								className='relative flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-green-500 border border-transparent rounded-md group hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:text-gray-700 disabled:cursor-not-allowed '
 								disabled={isLoading || user?.balance <= 2}
 							>
 								<span className='absolute inset-y-0 left-0 flex items-center pl-3'></span>

@@ -26,7 +26,7 @@ export const withdrawApi = apiSlice.injectEndpoints({
 
 		// get all withdraws
 		getAllWithdraws: builder.query({
-			query: () => '/withdraws/all',
+			query: () => '/admin/withdraws',
 			providesTags: ['Withdraws', 'Withdraw'],
 		}),
 

@@ -70,7 +70,7 @@ const Withdraws = () => {
 							<p className='text-green-500'>Approved</p>
 						)}
 						{params.row.status === 'cancelled' && (
-							<p className=' text-yellow-600'>Canceled</p>
+							<p className='text-yellow-600 '>Canceled</p>
 						)}
 					</div>
 				);
@@ -106,7 +106,7 @@ const Withdraws = () => {
 				email: withdraw.email,
 				date: formatDate(withdraw.createdAt),
 				amount: withdraw.amount,
-				method: withdraw.method,
+				method: withdraw.wallet,
 				status: withdraw.status,
 			});
 		});
@@ -118,6 +118,11 @@ const Withdraws = () => {
 				</div>
 			) : (
 				<div className='p-4'>
+					<div className='my-2 '>
+						<h2 className='text-xl font-semibold'>
+							All Withdraws : {withdraws?.length}
+						</h2>
+					</div>
 					<div className='w-full shadow-lg rounded-xl' style={{ height: 470 }}>
 						<DataGrid
 							rows={rows}

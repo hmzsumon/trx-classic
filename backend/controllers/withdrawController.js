@@ -11,6 +11,11 @@ const getPrice = require('../utils/getPrice');
 
 // Create new withdraw request
 exports.newWithdrawRequest = catchAsyncErrors(async (req, res, next) => {
+	// find company
+	const company = await Company.findById(companyId);
+	if (!company) {
+		return next(new ErrorHander('Company not found', 404));
+	}
 	const { amount, wallet, address } = req.body;
 	const numAmount = Number(amount);
 	const lastPrice = await getPrice();
@@ -62,6 +67,11 @@ exports.newWithdrawRequest = catchAsyncErrors(async (req, res, next) => {
 		'New withdraw request'
 	);
 	await user.save();
+	// update company withdraw balance
+	company.withdraw.new_withdraw += 1;
+	company.withdraw.pending_withdraw_count += 1;
+	company.withdraw.pending_withdraw_amount += numAmount;
+	await company.save();
 
 	res.status(200).json({
 		success: true,
@@ -77,3 +87,40 @@ exports.userWithdrawRequests = catchAsyncErrors(async (req, res, next) => {
 		withdraws,
 	});
 });
+
+// get all withdraw requests for admin
+exports.allWithdrawRequests = catchAsyncErrors(async (req, res, next) => {
+	const withdraws = await Withdraw.find({});
+	res.status(200).json({
+		success: true,
+		withdraws,
+	});
+});
+
+// update company withdraw balance
+exports.updateCompanyWithdrawBalance = catchAsyncErrors(
+	async (req, res, next) => {
+		const company = await Company.findById(companyId);
+		if (!company) {
+			return next(new ErrorHander('Company not found', 404));
+		}
+		// find all pending withdraws
+		const withdraws = await Withdraw.find({ status: 'pending' });
+		if (!withdraws) {
+			return next(new ErrorHander('Withdraws not found', 404));
+		}
+		for (let i = 0; i < withdraws.length; i++) {
+			const withdraw = withdraws[i];
+			// update company withdraw balance
+			company.withdraw.new_withdraw += 1;
+			company.withdraw.pending_withdraw_count += 1;
+			company.withdraw.pending_withdraw_amount += withdraw.amount;
+			await company.save();
+		}
+
+		res.status(200).json({
+			success: true,
+			message: 'Company withdraw balance updated successfully',
+		});
+	}
+);
