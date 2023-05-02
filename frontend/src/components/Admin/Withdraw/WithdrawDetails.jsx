@@ -1,5 +1,6 @@
 import React from 'react';
 import { formatDate } from '../../../utils/functions';
+import CopyIcon from '../../../global/CopyIcon';
 
 const WithdrawDetails = ({ withdraw, withdrawDetails }) => {
 	return (
@@ -37,9 +38,18 @@ const WithdrawDetails = ({ withdraw, withdrawDetails }) => {
 					<p>{formatDate(withdraw?.createdAt)}</p>
 				</div>
 				<div className='grid grid-cols-2'>
-					<p>Method:</p>
+					<p>Wallet:</p>
 					<p>{withdraw?.wallet}</p>
 				</div>
+
+				<div className=' grid grid-cols-2'>
+					<p>Wallet Address:</p>
+					<div className=' flex space-x-2'>
+						<p className='text-orange-500'>{withdraw?.address}</p>
+						<CopyIcon text={withdraw?.address} />
+					</div>
+				</div>
+
 				{withdraw?.method === 'bank' && (
 					<>
 						<div className='grid grid-cols-2'>
